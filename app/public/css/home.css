@@ -1,0 +1,84 @@
+
+
+.landing-page-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-weight: 450;
+}
+.landing-page-container h1{
+  font-size: 12.75vh;
+  text-align: center;
+  color: #333533;
+  z-index: -1;
+  top: 10vh;
+  position:absolute;
+
+}
+.landing-page-container img{
+  height: 70%;
+  position: absolute;
+  top: 15vh;
+  left: 25vw;
+}
+.landing-page-container p{
+  top: 82vh;
+  position:absolute;
+  text-align: center;
+  width: 30vw;
+}
+#extraImg{
+  height: 30vh;
+  left: 15vw;
+  top: 7vh;
+  z-index: -2;
+}
+.card{
+  width: 75vw;
+  border: none;
+  margin-bottom: 1vw;
+  background-color: transparent;
+}
+.container{
+  margin-left: 12.5vw;
+}
+#left{
+  text-align: left;
+}
+#right{
+  transform: scaleX(-1);
+}
+.cards{
+    text-align: left;
+    float:left;
+  }
+  #card-title-banner{
+    color: rgba(26,26,26);
+  }
+  #card-img-banner {
+      height: calc(10vw)!important;;
+      object-fit: cover;
+  }
+  #mockup{
+    width: 100%;
+    height:280px;
+    object-fit: cover;
+  }
+  .containerHome {
+    display: grid; 
+    grid-template-columns: 1.5fr 1fr; 
+    grid-template-rows: 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "product-types mockup"; 
+  }
+  .product-types { grid-area: product-types; }
+  .mockup { grid-area: mockup; }
+  .container-new-products {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 0px 0px; 
+    background-color: rgba(238,221,115)
+  }

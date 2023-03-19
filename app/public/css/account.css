@@ -1,0 +1,12 @@
+.form-login{
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+.infoMessage{
+    text-align:center;
+    background-color:lightcoral;
+    color: rgb(26,26,26);
+    display:none;
+}
