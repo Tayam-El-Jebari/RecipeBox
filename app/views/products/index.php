@@ -1,9 +1,6 @@
-
-  <link href="/css/main.css" rel="stylesheet">
-<h1>Products:!</h1>
-
+<body>
 <div class="products content-wrapper">
-    <h1>Products</h1>
+    <h1 class="ml">Products:</h1>
     <div class="product-grid product-grid-small">
     <?php
     foreach ($products as $product) {

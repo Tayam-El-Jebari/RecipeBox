@@ -98,6 +98,9 @@ span.stretch {
   .ml-auto {
     margin-left: auto;
   }
+  .ml{
+    margin-left: 5vw;
+  }
   .quantity-input {
     display: flex;
   }
