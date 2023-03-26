@@ -22,8 +22,21 @@ class ProductsController extends Controller
     }
     public function index()
     {
+        $id = isset($_GET['id']);
+        if($id)
+        {
+            $this->productDetailPage($id);
+        }
+        else{
+            $models = [
+                "products" => $this->productService->getAll()
+            ];
+            $this->displayView($models);
+        }
+    }
+    public function productDetailPage($id){
         $models = [
-            "products" => $this->productService->getAll()
+            "product" => $this->productService->getOne($id)
         ];
         $this->displayView($models);
     }

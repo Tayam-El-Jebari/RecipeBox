@@ -208,6 +208,33 @@ span.stretch {
   .product-grid-small .card-img {
     max-height: 170px ;
   }
+  .product-grid-detailed{
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .product-detail-grid {
+    margin-top: 12vh;
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 1fr; 
+    gap: 0px 0px; 
+    justify-items: center;
+    grid-template-areas: 
+      "image product-info"; 
+  }
+  .product-detail-image {
+    grid-area: image; 
+    display: block;
+    width: 100%;
+    max-width: 30vw;
+    object-fit: cover;
+    margin-bottom: 16px;
+    object-position: 50% 10%;
+    max-height:80%;
+  }
+  .product-info { 
+    grid-area: product-info; 
+    justify-items: left;
+  }
 
   @media screen and (min-width: 640px) {
     .product-grid {

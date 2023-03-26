@@ -14,6 +14,10 @@ class ProductService {
 
         return $this->repository->getAll();
     }
+    public function getOne($id) {
+
+        return $this->repository->getOne($id);
+    }
 
     public function getAllCategories(){
         return $this->repository->getAllCategories();

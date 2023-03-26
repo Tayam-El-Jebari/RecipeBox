@@ -18,10 +18,4 @@ class HomeController extends Controller
         ];
         $this->displayView($models);
     }
-
-    public function about()
-    {
-     
-        require __DIR__ . '/../views/home/about.php';
-    }
 }
