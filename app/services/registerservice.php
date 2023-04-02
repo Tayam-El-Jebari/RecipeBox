@@ -7,14 +7,14 @@ class RegisterService {
     {
         $this->repository = new AccountRepository();
     }
-    public function register() {
+    public function register($firstname, $lastname, $email, $password, $postalcode, $housenumber) {
         if(!$this->repository ->checkEmailExists())
         {
             if(!$this->isValidPostalCode($_POST['postalcode']))
             {
                 throw new ErrorException("De postcode is incorrect ingevlud, kijk a.u.b. of je begint met 4 cijfers en eindigd met 2 letters.");
             }
-            $this->repository ->registerAccount();
+            $this->repository ->registerAccount($firstname, $lastname, $email, $password, $postalcode, $housenumber);
         }
         else{
             throw new ErrorException("Helaas is de gegeven email al in gebruik, gebruik aub een andere mail.");

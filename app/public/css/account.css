@@ -3,10 +3,14 @@
     max-width: 330px;
     padding: 15px;
     margin: auto;
+    height: 90vh;
 }
 .infoMessage{
     text-align:center;
     background-color:lightcoral;
     color: rgb(26,26,26);
     display:none;
+}
+.form-floating{
+margin-bottom: 3vh;
 }

@@ -17,13 +17,26 @@ class RegisterController
         $response = array(
             'status' => 1,
             'message' => 'Account is aangemaakt. Je kan nu inloggen.'
-        );
-        try{
-            $this->registerService->register();
-        }catch(ErrorException $e){
-            $response['message'] = $e->getMessage();
-            $response['status'] = 0;
+        );  
+        if ($_SERVER["CONTENT_TYPE"] == "application/json") {
+            // Read the JSON data from the request body
+             $json_data = file_get_contents("php://input");
+             $data = json_decode($json_data, true);
+            $response['message'] = $data["firstname"];;
+            echo json_encode($response);}
         }
-        echo json_encode($response);
+        //
+        // try{
+        //     $firstname = $_POST['firstname'] ?? '';
+        //     $lastname = $_POST['lastname'] ?? '';
+        //     $email = $_POST['email'] ?? '';
+        //     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        //     $postalcode = $_POST['postalcode'] ?? '';
+        //     $housenumber = $_POST['housenumber'] ?? '';
+        //     $this->registerService->register($firstname, $lastname, $email, $password, $postalcode, $housenumber);
+        // }catch(ErrorException $e){
+        //     $response['message'] = $e->getMessage();
+        //     $response['status'] = 0;
+        // }
+        // echo json_encode($response);
     }
-}

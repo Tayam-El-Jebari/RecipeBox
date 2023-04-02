@@ -1,18 +1,62 @@
-<body>  
-<div class="product-detail-grid">
-<img class="card-img product-detail-image" src=" <?= $product->getImageAddress() ?> " alt="'<?= $product->getProductName() ?> '-image">
-<div>
-    <h1> <?php echo $product->getProductName();?> </h1>
-    </a><div class="flex-row"><p class="price">€<span><?= number_format($product->getPrice(), 2, ',', '') ?>-</span></p>
-      <div class="ml-auto"><label for="quantity">Quantity:</label>
-      <div class="quantity-input">
-      <button class="min-btn" id="minus">-</button>
-      <input type="number" id="quantity" name="quantity" min="1" value="1">
-      <button class="plus-btn" id="plus">+</button>
-      </div></div></div>
-      <div class="btn-col">
-
+<body>
+  <div class="container vh-100 pt-3">
+    <div class="row ">
+      <div class="col-sm-6">
+        <img class="card-img product-detail-image" src=" <?= $product->getImageAddress() ?> " alt="'<?= $product->getProductName() ?> '-image">
+      </div>
+      <div class="col-sm-6">
+        <h2><?= $product->getProductName() ?></h2>
+        <h3>Kcal: <?= $product->getKcal() ?></h3>
+        <div class="container mt-5">
+          <p class="green-text">
+            <i class="fas fa-truck"></i> Order before 11:59 PM and get it tomorrow!
+          </p>
+          <p class="green-text">
+            <i class="fas fa-calendar-alt"></i> Schedule your own delivery time (Mon-Fri)
+          </p>
+          <p class="green-text">
+            <i class="fas fa-star"></i> Avg. customer rating 9 with +2,000 reviews
+          </p>
+        </div>
+       </div> 
+    </div>
+    <div class="container">
+  <?php foreach ($product->getIngredients() as $ingredient): ?>
+    <?php
+    var_dump($ingredient);
+    $searchQuery = urlencode($ingredient->getIngredient());
+    $apiUrl = "https://world.openfoodfacts.org/cgi/search.pl?search_terms={$searchQuery}&page-count=1&search_simple=1&json=true&page_size=1";
+    $response = file_get_contents($apiUrl);
+    $data = json_decode($response, true);
+    $product = $data['products'][0];
+    ?>
+    <div class="table-responsive mt-5">
+      <h2><?php echo htmlspecialchars($product['product_name']); ?></h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nutrient</th>
+            <th scope="col">Amount per 100g</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Energy</td>
+            <td><?php echo htmlspecialchars($product['nutriments']['energy_kcal']); ?> kcal</td>
+          </tr>
+          <tr>
+            <td>Fat</td>
+            <td><?php echo htmlspecialchars($product['nutriments']['fat']); ?> g</td>
+          </tr>
+          <tr>
+            <td>Saturated Fat</td>
+            <td><?php echo htmlspecialchars($product['nutriments']['saturated-fat']); ?> g</td>
+          </tr>
+          <!-- Add more nutrients if needed -->
+        </tbody>
+      </table>
+    </div>
+  <?php endforeach; ?>
 </div>
-</div>
-</body>
+  </div> 
 

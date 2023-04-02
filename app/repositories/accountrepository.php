@@ -22,15 +22,9 @@ class AccountRepository extends Repository
             throw new ErrorException("Iets is fout gegaan, probeer het op een later punt nogmaals.");
         }
     }
-    function registerAccount()
+    function registerAccount($firstname, $lastname, $email, $password, $postalcode, $housenumber)
     {
         try {
-            $firstname = $_POST['firstname'] ?? '';
-            $lastname = $_POST['lastname'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $postalcode = $_POST['postalcode'] ?? '';
-            $housenumber = $_POST['housenumber'] ?? '';
             $stmt = $this->connection->prepare("INSERT INTO `Users`(`firstname`, `lastname`, `email`, `password`, `postalcode`, `housenumber`) 
             VALUES (?,?,?,?,?,?)");
             $stmt->execute([$firstname, $lastname, $email, $password, $postalcode, $housenumber]);

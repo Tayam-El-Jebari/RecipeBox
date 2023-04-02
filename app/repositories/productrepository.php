@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/repository.php';
 require_once __DIR__ . '/../models/mealProduct.php';
+require_once __DIR__ . '/../models/ingredient.php';
+
 
 class ProductRepository extends Repository
 {
@@ -27,8 +29,7 @@ class ProductRepository extends Repository
                 $product->setProductName($row['name']);
                 $product->setKcal($row['kcal']);
                 $product->setAllergens($row['allergens']);
-                $product->setIngredients($row['ingredients']);
-                $product->setIngredients($row['ingredientsWeight']);
+                $product->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
                 $products[] = $product;
             }
             return $products;
@@ -48,7 +49,6 @@ class ProductRepository extends Repository
             GROUP BY m.id 
             ORDER BY m.id;");
             $products = array();
-
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $product = new MealProduct();
                 $product->setProductId($row['id']);
@@ -60,11 +60,9 @@ class ProductRepository extends Repository
                 $product->setProductName($row['name']);
                 $product->setKcal($row['kcal']);
                 $product->setAllergens($row['allergens']);
-                $product->setIngredients($row['ingredients']);
-                $product->setIngredients($row['ingredientsWeight']);
+                $product->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
                 $products[] = $product;
             }
-
             return $products;
         } catch (PDOException $e) {
             echo $e;
@@ -84,22 +82,19 @@ class ProductRepository extends Repository
             ORDER BY m.id");
             $stmt->execute([$id]);
 
-            $productToSend = null;
+            $productToSend = new MealProduct();
 
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $product = new MealProduct();
-                $product->setProductId($row['id']);
-                $product->setFoodCategory(
+                $productToSend->setProductId($row['id']);
+                $productToSend->setFoodCategory(
                     new FoodCategory($row['foodCategoryName'])
                 );
-                $product->setPrice($row['price']);
-                $product->setImageAddress($row['image']);
-                $product->setProductName($row['name']);
-                $product->setKcal($row['kcal']);
-                $product->setAllergens($row['allergens']);
-                $product->setIngredients($row['ingredients']);
-                $product->setIngredients($row['ingredientsWeight']);
-                $productToSend = $product;
+                $productToSend->setPrice($row['price']);
+                $productToSend->setImageAddress($row['image']);
+                $productToSend->setProductName($row['name']);
+                $productToSend->setKcal($row['kcal']);
+                $productToSend->setAllergens($row['allergens']);
+                $productToSend->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
             } 
 
             return $productToSend;
@@ -126,5 +121,21 @@ class ProductRepository extends Repository
         } catch (PDOException $e) {
             echo $e;
         }
+    }
+    private function createIngredientsArray($ingredients, $ingredientsWeight){
+        //filled with strings
+        $ingredientsStringArray = explode(",",$ingredients);
+        $ingredientsStringWeightArray = explode(",",$ingredientsWeight);
+
+        //filled with ingredient objects
+        $ingredientArray = array();
+
+        for($i=0;$i<count($ingredientsStringArray);$i++){
+            $ingredient = new Ingredient();
+            $ingredient->setIngredient($ingredientsStringArray[$i]);
+            $ingredient->setIngredientWeight( $ingredientsStringWeightArray[$i]);
+            array_push($ingredientArray, $ingredient);
+        }
+        return $ingredientArray;
     }
 }

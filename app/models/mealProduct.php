@@ -1,5 +1,7 @@
 <?php
 require __DIR__ . '/foodCategory.php';
+require __DIR__ . '/ingredient.php';
+
 
 class MealProduct
 {
@@ -11,8 +13,7 @@ class MealProduct
     private string $productName;
     private int $kcal;
     private string $allergens;
-    private $ingredients;
-    private $ingredientsWeight;
+    private array $ingredients;
 
 
 
@@ -132,33 +133,13 @@ class MealProduct
 		$this->allergens = $allergens;
 		return $this;
 	}
-    /**
-	 * @return string[]
-	 */
-	public function getIngredients() {
-		return $this->ingredients;
-	}
-	/**
-	 * @param string $ingredients 
-	 * @return self
-	 */
-	public function setIngredients(string $ingredients): self {
-		$this->ingredients = explode(",", $ingredients);;
-		return $this;
-	}
-    /**
-	 * @return string[]
-	 */
-    public function getIngredientsWeight() {
-		return $this->ingredientsWeight;
-	}
-	/**
-	 * @param string $ingredients 
-	 * @return self
-	 */
-	public function setIngredientsWeight(string $ingredientsWeight): self {
-		$this->ingredientsWeight = explode(",", $ingredientsWeight);
-		return $this;
-	}
+    public function getIngredients(): array
+    {
+        return $this->ingredients;
+    }
 
+    public function setIngredients(array $ingredients): void
+    {
+        $this->ingredients = $ingredients;
+    }
 }

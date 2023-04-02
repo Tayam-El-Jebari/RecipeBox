@@ -8,7 +8,10 @@ include __DIR__ . '/../header.php';
 
 <body class='text-center'>
     <main class="form-login">
-        <form method="POST" id="signUpForm" onSubmit="return false; // Returning false stops the page from reloading">
+        <form method="POST" id="signUpForm" onSubmit="return false;">
+            <div class="alert alert-danger d-none" id="alert" role="alert">
+
+            </div>
             <h1 class="h3 mb-3 fw-normal">Registreer hier</h1>
             <div class="infoMessage"> </div>
             <div class="form-floating">
@@ -49,46 +52,111 @@ include __DIR__ . '/../header.php';
     </main>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#signUpForm").on('submit', function(e) {
-                if ($("#password").val() != $("#passwordConfirm").val()) {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#signUpForm').addEventListener('submit', function(e) {
+                if (document.getElementById("password").value != document.getElementById("passwordConfirm").value) {
                     e.preventDefault();
-                    alert("Passwords do not match!");
+                    document.getElementById("alert").classList.remove('d-none')
+                    document.getElementById("alert").innerHTML = "Passwords do not match!";
                 } else {
-                    $.ajax({
-                        url: 'register/createAccount',
-                        type: "POST",
-                        data: {
-                            firstname: $("#firstname").val(),
-                            lastname: $("#lastname").val(),
-                            email: $("#email").val(),
-                            password: $("#password").val(),
-                            postalcode: $("#postalCode").val(),
-                            housenumber: $("#housenumber").val(),
-                        },
-                        dataType: 'json',
-                        processdate: false,
-                        cache: false,
-                        procesData: false,
-                        success: function(response) {
-                            $(".infoMessage").css("display", "block");
+                    fetch('register/createAccount', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                firstname: document.querySelector('#firstname').value,
+                                lastname: document.querySelector('#lastname').value,
+                                email: document.querySelector('#email').value,
+                                password: document.querySelector('#password').value,
+                                postalcode: document.querySelector('#postalCode').value,
+                                housenumber: document.querySelector('#houseNumber').value,
+                            })
 
-                            if (response.status === 1) {
-                                $("#signUpForm")[0].reset();
+                        }).then(response => response.json())
+                        .then(data => {
+                            document.querySelector('.infoMessage').style.display = 'block';
+
+                            if (data.status === 1) {
+                                document.querySelector('#signUpForm').reset();
                             }
-                            $(".infoMessage").html('<p>' + response.message + '</p>');
-                            
-                        },
-                    });
+                            document.querySelector('.infoMessage').innerHTML = '<p>' + data.message + '</p>';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+
+
+
+                    // $.ajax({
+                    //     url: 'register/createAccount',
+                    //     type: "POST",
+                    //     data: {
+                    //         firstname: $("#firstname").val(),
+                    //         lastname: $("#lastname").val(),
+                    //         email: $("#email").val(),
+                    //         password: $("#password").val(),
+                    //         postalcode: $("#postalCode").val(),
+                    //         housenumber: $("#housenumber").val(),
+                    //     },
+                    //     dataType: 'json',
+                    //     processdate: false,
+                    //     cache: false,
+                    //     procesData: false,
+                    //     success: function(response) {
+                    //         $(".infoMessage").css("display", "block");
+
+                    //         if (response.status === 1) {
+                    //             $("#signUpForm")[0].reset();
+                    //         }
+                    //         $(".infoMessage").html('<p>' + response.message + '</p>');
+
+                    //     },
+
+                    // });
                 }
             });
         })
     </script>
+    <!-- <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var signUpForm = document.getElementById('signUpForm');
+        signUpForm.addEventListener('submit', function(e) {
+            var password = document.getElementById('password');
+            var passwordConfirm = document.getElementById('passwordConfirm');
+            var alert = document.getElementById('alert');
+
+            if (password.value !== passwordConfirm.value) {
+                e.preventDefault();
+                alert.classList.remove('d-none');
+                alert.innerHTML = 'Passwords do not match!';
+            } else {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var response = JSON.parse(this.responseText);
+                        var infoMessage = document.querySelector('.infoMessage');
+                        infoMessage.style.display = 'block';
+
+                         if (response.status === 1) {
+                             signUpForm.reset();
+                         }
+                        infoMessage.innerHTML = '<p>' + response.message + '</p>';
+                    }
+                };
+                xhttp.open('POST', 'register/createAccount', true);
+                //xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhttp.send(
+                    'firstname=' + encodeURIComponent(document.getElementById('firstname').value) +
+                    '&lastname=' + encodeURIComponent(document.getElementById('lastname').value) +
+                    '&email=' + encodeURIComponent(document.getElementById('email').value) +
+                    '&password=' + encodeURIComponent(document.getElementById('password').value) +
+                    '&postalcode=' + encodeURIComponent(document.getElementById('postalCode').value)
+                );
+            }
+        });
+    });
+</script> -->
 </body>
-
-<?php
-
-include __DIR__ . '/../footer.php';
-?>
