@@ -32,7 +32,7 @@
         <div class="user-options ml-auto">
         <?php if (isset($_SESSION['userID'])) { ?><p class="welcome-text"> welkom <?= htmlspecialchars($_SESSION['firstname']) ?> </p> <?php } ?>
         <div class="option"><a href="/account"><i class="fa fa-user fa-2x"></i></a></div>
-          <div class="option"><a href="/paymentpage"><i class="fa fa-shopping-cart fa-2x"></i></a></div>
+          <div class="option"><a href="/cart"><i class="fa fa-shopping-cart fa-2x"></i></a></div>
           <?php if (isset($_SESSION['userID']) ) { ?>
             <div class="option"><a href="/account/logout"><i class="fa fa-right-from-bracket fa-2x"></i></a></div><?php }  ?>
         </div>

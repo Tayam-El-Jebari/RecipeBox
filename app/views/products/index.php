@@ -46,7 +46,7 @@
                   </div>
                 </div>
                 <div class="btn-col">
-                  <a class="icon-link add-to-cart-btn" data-product-id="<?= $product->getProductId(); ?>" >
+                  <a class="icon-link add-to-cart-btn" data-product-id="<?= $product->getProductId(); ?>" data-product-name="<?= $product->getProductName(); ?>" >
                     add to cart
                     <svg fill="none" class="rubicons arrow-right-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path d="M17.9645 12.9645l.071-7h-7.071" stroke-linecap="round"></path>
@@ -70,11 +70,11 @@
       </div>
     </div>
 
-    <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+  <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">
-      <div class="alert alert-success d-none margin-top" id="alert" role="alert">
+      <div class="alert alert-success margin-top" id="alert" role="alert">
 
       </div>
       </div>

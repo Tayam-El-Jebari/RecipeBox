@@ -10,15 +10,6 @@ class ProductsController extends Controller
     {
         $this->productService = new ProductService();
     }
-
-    public function getMostRecentFour()
-    {    
-        return $this->productService->getMostRecentFour();
-    }
-    public function getAll()
-    {    
-        return $this->productService->getAll();
-    }
     public function index()
     {
         $id = isset($_GET['id']);
@@ -40,5 +31,27 @@ class ProductsController extends Controller
             
         ];
         $this->displayView($models);
+    }
+    public function getCartItems(){
+        $jsonData = file_get_contents('php://input');
+        $data = json_decode($jsonData, true);
+        $response = array(
+            'status' => 1,
+            'message' => '',
+            'products' => array()
+        );
+        try {
+            if (isset($data["cart"])  && is_array($data["cart"])) {
+                $products = $this->productService->getCart($data["cart"]);
+                $response['products'] = $products;
+            }
+            else{
+                throw new ErrorException("Invalid cart data");
+            }
+        } catch (ErrorException $e) {
+            $response['status'] = 0;
+            $response['message'] = $e->getMessage();
+        }
+        echo json_encode($response);
     }
 }

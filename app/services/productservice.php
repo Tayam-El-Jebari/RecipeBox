@@ -14,8 +14,19 @@ class ProductService {
 
         return $this->repository->getAll();
     }
+    public function getCart($cart) {
+        $products = [];
+        foreach ($cart as $item) {
+            $productId = $item['id'];
+            $product = $this->getOne($productId);
+    
+            if ($product->getProductId() !== null) {
+                $products[] = $product;
+            }
+        }
+        return $this->repository->getAll();
+    }
     public function getOne($id) {
-
         return $this->repository->getOne($id);
     }
 
