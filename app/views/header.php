@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
-    Recipe Box 
+    Recipe Box
     <?php
     $uri = trim($_SERVER['REQUEST_URI'], '/');
     echo '- ' . ucfirst($uri);
@@ -29,12 +29,17 @@
           <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
         </ul>
-        <div class="link-icons text-right">
-        <a href="index.php?page=cart"><i class="fa fa-cart-shopping"></i></a>
+        <div class="user-options ml-auto">
+        <?php if (isset($_SESSION['userID'])) { ?><p class="welcome-text"> welkom <?= htmlspecialchars($_SESSION['firstname']) ?> </p> <?php } ?>
+        <div class="option"><a href="/account"><i class="fa fa-user fa-2x"></i></a></div>
+          <div class="option"><a href="/paymentpage"><i class="fa fa-shopping-cart fa-2x"></i></a></div>
+          <?php if (isset($_SESSION['userID']) ) { ?>
+            <div class="option"><a href="/account/logout"><i class="fa fa-right-from-bracket fa-2x"></i></a></div><?php }  ?>
         </div>
+
 
       </div>
     </div>
   </nav>
   <div class="container-fluid" id="main-Content">
-  </header>
+</header>

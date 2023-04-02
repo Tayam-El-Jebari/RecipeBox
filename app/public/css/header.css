@@ -40,3 +40,18 @@
  .nav-link{
   font-weight: 900;
  }
+ .user-options{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+ .option{
+  margin-right: 45px;
+ }
+ .fa{
+  color: #333
+ }
+ .welcome-text{
+   margin-bottom: 0;
+   margin-right:5rem;
+ }

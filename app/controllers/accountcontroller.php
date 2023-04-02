@@ -9,14 +9,13 @@ class AccountController extends Controller
 
     function __construct()
     {
-        $this->service= new AccountService();
+        $this->service = new AccountService();
     }
     public function index()
     {
-        if(isset($_SESSION['userID'])){
+        if (isset($_SESSION['userID'])) {
             //$this->overview();
-        }
-        else{
+        } else {
             $models = [];
             $this->displayView($models);
         }
@@ -30,10 +29,9 @@ class AccountController extends Controller
         // Read the JSON data from the request body
         $json_data = file_get_contents("php://input");
         $data = json_decode($json_data, true);
-        try{
+        try {
             $this->service->register($data["firstName"], $data["firstName"], $data["email"], $data["password"], $data["postalCode"], $data["houseNumber"]);
-        }
-        catch(ErrorException $e){
+        } catch (ErrorException $e) {
             $response['status'] = 0;
             $response['message'] = $e->getMessage();
         }
@@ -41,26 +39,33 @@ class AccountController extends Controller
     }
     public function login()
     {
+        $jsonData = file_get_contents('php://input');
+        $data = json_decode($jsonData, true);
         $response = array(
             'status' => 1,
-            'message' => 'login successfull, redirecting to home page. If you are seeing this however, something is going wrong.'
+            'message' => "login successfull, redirecting to home page. Please wait... <br>if nothing happends; click <a href='/'>here</a>"
         );
-        // Read the JSON data from the request body
-        $json_data = file_get_contents("php://input");
-        $data = json_decode($json_data, true);
-        try{
-            //$user = $this->service->login($data["email"], $data["password"]);
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
+
+        try {
+            if (isset($data["email"]) && isset($data["password"])) {
+                $user = $this->service->login($data["email"], $data["password"]);
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['userID'] = $user->getUserID();
+                $_SESSION['firstname'] = $user->getFirstname();
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "Email or password is not provided.";
             }
-            // $_SESSION['userID'] = $user->getUserID();
-            // $_SESSION['userRole'] = $user->getUserRole();
-            // $_SESSION['fullName'] = $user->getFullName();
-        }
-        catch(ErrorException $e){
+        } catch (ErrorException $e) {
             $response['status'] = 0;
             $response['message'] = $e->getMessage();
         }
         echo json_encode($response);
+    }
+    public function logout()
+    {
+        $this->service->logout();
     }
 }

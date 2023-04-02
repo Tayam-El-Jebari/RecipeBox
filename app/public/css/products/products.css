@@ -9,7 +9,7 @@
     font-weight: 600;
   }
   .product-grid-small .card-img {
-    max-height: 170px ;
+    max-height: 190px ;
   }
   .product-info { 
     grid-area: product-info; 

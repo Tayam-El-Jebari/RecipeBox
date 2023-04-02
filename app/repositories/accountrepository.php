@@ -31,36 +31,26 @@ class AccountRepository extends Repository
             throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
-    function login()
+    function getPasswordByEmail($email){
+        try {
+            $stmt = $this->connection->prepare("SELECT `password` FROM `Users` WHERE email = ?");
+            $stmt->execute([$email]);
+            $password = $stmt->fetch();
+            return $password;
+        } catch (Exception $e) {
+            throw new ErrorException("It seems something went wrong with our database! Please try again later.");
+        }
+    }
+    function getUser($email)
     {
         try {
-            session_start();
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
-            $stmt = $this->connection->prepare("SELECT * FROM `Users` WHERE email = ?");
+            $stmt = $this->connection->prepare("SELECT id, firstname FROM `Users` WHERE email = ?");
             $stmt->execute([$email]);
-            $user = $stmt->fetch();
-            if (!$user) {
-                throw new ErrorException("foutieve email of wachtwoord");
-            }
-            if (!password_verify($password, $user['password'])) {
-                throw new ErrorException("foutieve email of wachtwoord");
-            }
-            
-            if (isset($_POST['remember_me'])) {
-                if (array_values($_POST)[2] === "true") {
-                    setcookie("user", $user, time() + 86400);
-                } else if (array_values($_POST)[2] === "false"){
-                    $_SESSION['user'] = $user;
-                }
-                else{
-                    throw new ErrorException("Iets lijkt fout te zijn gegaan. probeer het later nogmaals.");
-                }
-            }
-
-            return true;
+            $userData = $stmt->fetch();
+            $user = new Account($userData['id'], $userData['firstname']);            
+            return $user;
         } catch (Exception $e) {
-            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
+            throw new ErrorException("It seems something went wrong with our database! Please try again later.");
         }
     }
 }

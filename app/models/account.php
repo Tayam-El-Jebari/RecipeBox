@@ -8,117 +8,158 @@ class Account
     private string $email;
     private string $password;
     private string $postalcode;
-    private int $houseNumber;
+    private string $houseNumber;
 
-	/**
-	 * @return int
-	 */
-	public function getHouseNumber(): int {
-		return $this->houseNumber;
-	}
-	
-	/**
-	 * @param int $houseNumber 
-	 * @return self
-	 */
-	public function setHouseNumber(int $houseNumber): self {
-		$this->houseNumber = $houseNumber;
-		return $this;
-	}
 
-	/**
-	 * @return string
-	 */
-	public function getPostalcode(): string {
-		return $this->postalcode;
-	}
-	
-	/**
-	 * @param string $postalcode 
-	 * @return self
-	 */
-	public function setPostalcode(string $postalcode): self {
-		$this->postalcode = $postalcode;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPassword(): string {
-		return $this->password;
-	}
-
-	/**
-	 * @param string $password 
-	 * @return self
-	 */
-	public function setPassword(string $password): self {
-		$this->password = $password;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEmail(): string {
-		return $this->email;
-	}
-
-	/**
-	 * @param string $email 
-	 * @return self
-	 */
-	public function setEmail(string $email): self {
-		$this->email = $email;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLastname(): string {
-		return $this->lastname;
-	}
-
-	/**
-	 * @param string $lastname 
-	 * @return self
-	 */
-	public function setLastname(string $lastname): self {
-		$this->lastname = $lastname;
-		return $this;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getUserId(): int {
-		return $this->userId;
-	}
-
-	/**
-	 * @param int $userId 
-	 * @return self
-	 */
-	public function setUserId(int $userId): self {
-		$this->userId = $userId;
-		return $this;
-	}
-	/**
-	 * @return string
-	 */
-	public function getFirstname(): string {
-		return $this->firstname;
-	}
-	
-	/**
-	 * @param string $firstname 
-	 * @return self
-	 */
-	public function setFirstname(string $firstname): self {
+	public function __construct($userID, $firstname, $lastname = '', $email = '',   $password = '', $postalcode = '', $houseNumber = ''){
+		$this->userId = $userID;
 		$this->firstname = $firstname;
-		return $this;
+		$this->lastname = $lastname;
+		$this->email = $email;
+		$this->password = $password;
+		$this->postalcode = $postalcode;
+		$this->houseNumber = $houseNumber;
 	}
+
+
+    /**
+     * Get the value of userId
+     */ 
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @return  self
+     */ 
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of firstname
+     */ 
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set the value of firstname
+     *
+     * @return  self
+     */ 
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of lastname
+     */ 
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set the value of lastname
+     *
+     * @return  self
+     */ 
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */ 
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of postalcode
+     */ 
+    public function getPostalcode()
+    {
+        return $this->postalcode;
+    }
+
+    /**
+     * Set the value of postalcode
+     *
+     * @return  self
+     */ 
+    public function setPostalcode($postalcode)
+    {
+        $this->postalcode = $postalcode;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of houseNumber
+     */ 
+    public function getHouseNumber()
+    {
+        return $this->houseNumber;
+    }
+
+    /**
+     * Set the value of houseNumber
+     *
+     * @return  self
+     */ 
+    public function setHouseNumber($houseNumber)
+    {
+        $this->houseNumber = $houseNumber;
+
+        return $this;
+    }
 }
 ?>
