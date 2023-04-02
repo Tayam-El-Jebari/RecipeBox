@@ -3,7 +3,7 @@
     <h1 class="display-4 fw-bolder"><span class="stretch">RECIPE BOX</span></h1>
     <img src="/img/mockup-box.png" alt="banner image"> </img>
     <img src="/img/mockup-box-extra.png" id="extraImg" alt="banner image"> </img>
-    <p>
+    <p class="attention-text">
       A compact, quick and easy dinner for healthy individuals,
       our boxes contain all information you might need on your meal,
       Recipe Box is perfect for any kind of individual.</p>

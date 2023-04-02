@@ -4,7 +4,8 @@ class FoodCategory
     private int $foodCategoryID;
     private string $foodCategoryName;
     private string $bannerImage;
-    public function __construct ($foodCategoryName) {
+    public function __construct ($foodCategoryID, $foodCategoryName) {
+        $this->foodCategoryID = $foodCategoryID;
         $this->foodCategoryName = $foodCategoryName;
     }
     /**

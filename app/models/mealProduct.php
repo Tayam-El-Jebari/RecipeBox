@@ -12,7 +12,7 @@ class MealProduct
     private string $imageAddress;
     private string $productName;
     private int $kcal;
-    private string $allergens;
+    private array $allergens;
     private array $ingredients;
 
 
@@ -119,19 +119,11 @@ class MealProduct
         $this->kcal = $kcal;
         return $this;
     }
-	    /**
-	 * @return string
-	 */
-	public function getAllergens(): string {
+	public function getAllergens(): array {
 		return $this->allergens;
 	}
-	/**
-	 * @param string $allergens 
-	 * @return self
-	 */
-	public function setAllergens(string $allergens): self {
+	public function setAllergens(array $allergens): void {
 		$this->allergens = $allergens;
-		return $this;
 	}
     public function getIngredients(): array
     {

@@ -10,7 +10,7 @@ class ProductRepository extends Repository
     function getMostRecentFour()
     {
         try {
-            $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, m.price, m.image, m.name, m.kcal, m.allergens, GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
+            $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, fc.foodCategoryID, m.price, m.image, m.name, m.kcal, m.allergens, GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
             FROM meals as m
             INNER JOIN foodCategories as fc
 			ON m.mainIngredientId = fc.foodCategoryID
@@ -23,12 +23,12 @@ class ProductRepository extends Repository
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $product = new MealProduct();
                 $product->setProductId($row['id']);
-                $product->setFoodCategory(new FoodCategory($row['foodCategoryName']));
+                $product->setFoodCategory(new FoodCategory($row['foodCategoryID'], $row['foodCategoryName']));
                 $product->setPrice($row['price']);
                 $product->setImageAddress($row['image']);
                 $product->setProductName($row['name']);
                 $product->setKcal($row['kcal']);
-                $product->setAllergens($row['allergens']);
+                $product->setAllergens(explode(",",$row['allergens']));
                 $product->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
                 $products[] = $product;
             }
@@ -40,7 +40,7 @@ class ProductRepository extends Repository
     function getAll()
     {
         try {
-            $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, m.price, m.image, m.name, m.kcal, m.allergens, GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
+            $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, fc.foodCategoryID, m.price, m.image, m.name, m.kcal, m.allergens, GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
             FROM meals as m
             INNER JOIN foodCategories as fc
 			ON m.mainIngredientId = fc.foodCategoryID
@@ -53,13 +53,13 @@ class ProductRepository extends Repository
                 $product = new MealProduct();
                 $product->setProductId($row['id']);
                 $product->setFoodCategory(
-                    new FoodCategory($row['foodCategoryName'])
+                    new FoodCategory($row['foodCategoryID'], $row['foodCategoryName'])
                 );
                 $product->setPrice($row['price']);
                 $product->setImageAddress($row['image']);
                 $product->setProductName($row['name']);
                 $product->setKcal($row['kcal']);
-                $product->setAllergens($row['allergens']);
+                $product->setAllergens(explode(",",$row['allergens']));
                 $product->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
                 $products[] = $product;
             }
@@ -71,7 +71,7 @@ class ProductRepository extends Repository
     function getOne($id)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT m.id, fc.foodCategoryName, m.price, m.image, m.name, m.kcal, m.allergens, GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
+            $stmt = $this->connection->prepare("SELECT m.id, fc.foodCategoryName, fc.foodCategoryID, m.price, m.image, m.name, m.kcal, m.allergens, GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
             FROM meals as m
             INNER JOIN foodCategories as fc
 			ON m.mainIngredientId = fc.foodCategoryID
@@ -82,22 +82,22 @@ class ProductRepository extends Repository
             ORDER BY m.id");
             $stmt->execute([$id]);
 
-            $productToSend = new MealProduct();
+            $product = new MealProduct();
 
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $productToSend->setProductId($row['id']);
-                $productToSend->setFoodCategory(
-                    new FoodCategory($row['foodCategoryName'])
+                $product->setProductId($row['id']);
+                $product->setFoodCategory(
+                    new FoodCategory($row['foodCategoryID'], $row['foodCategoryName'])
                 );
-                $productToSend->setPrice($row['price']);
-                $productToSend->setImageAddress($row['image']);
-                $productToSend->setProductName($row['name']);
-                $productToSend->setKcal($row['kcal']);
-                $productToSend->setAllergens($row['allergens']);
-                $productToSend->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
+                $product->setPrice($row['price']);
+                $product->setImageAddress($row['image']);
+                $product->setProductName($row['name']);
+                $product->setKcal($row['kcal']);
+                $product->setAllergens(explode(",",$row['allergens']));
+                $product->setIngredients($this->createIngredientsArray($row['ingredients'], $row['ingredientsWeight']));
             } 
 
-            return $productToSend;
+            return $product;
         } catch (PDOException $e) {
             echo $e;
         }
@@ -111,9 +111,8 @@ class ProductRepository extends Repository
             $foodCategories = array();
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $foodCategory = new FoodCategory($row['foodCategoryName']);
+                $foodCategory = new FoodCategory($row['foodCategoryID'], $row['foodCategoryName']);
                 $foodCategory->setBannerImage($row['bannerImage']);
-                $foodCategory->setFoodCategoryID($row['foodCategoryID']);
                 $foodCategories[] = $foodCategory;
             }
 

@@ -7,7 +7,6 @@ class HomeController extends Controller
 {
     private $productService;
     function __construct() {
-        parent::__construct();
         $this->productService = new ProductService();
     }
     public function index()

@@ -1,76 +1,58 @@
-<?php
+<body>
+<div class="min-vh-85">
+  <div id="form-box">
+    <div class="alert alert-danger d-none" id="alert" role="alert">
 
-include __DIR__ . '/../header.php';
-if(isset($_POST['signup'])){
-    
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-<link href="/css/account.css" rel="stylesheet">
-
-<body class = 'text-center'>
-<main class="form-login">
-<form method="POST">
-    <h1 class="h3 mb-3 fw-normal">Please log in</h1>
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-      <label for="floatingInput">Email address</label>
     </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
-      <label for="floatingPassword">Password</label>
+    <div class="button-box">
+      <div id="btn"></div>
+      <button type="button" class="sign-up btn-account" id="loginbtn" onclick="login()">Log in</button>
+      <button type="button" class="sign-up btn-account" id="registerbtn" onclick="register()" style="color:#333;">Sign in</button>
     </div>
+    <form id="login" class="form-group input-group" method="POST">
+      <div class="form-floating">
+        <input type="email" class="form-control input-field" placeholder="name@example.com" id="emailLogin" minlength="7" required>
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control input-field" placeholder="name@example.com" id="passwordLogin" minlength="7" required>
+        <label for="floatingInput">password</label>
+      </div>
+      <button type="submit" class="submit-btn btn-account">Log in</button>
+    </form>
+    <form id="register" class="input-group" method="POST">
+      <div class="form-floating">
+        <input type="email" class="form-control input-field" placeholder="name@example.com" id="emailRegister" minlength="7" required>
+        <label for="floatingInput">Email address</label>
+      </div>
 
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit" name="login">Sign in</button>
-  </form>
-</main>
+      <div class="form-floating">
+        <input type="text" class="form-control input-field" placeholder="Pieter" id="firstName" minlength="3" required>
+        <label for="floatingInput">Fist Name</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control input-field" placeholder="Van Der Berg" id="lastName" minlength="3" required>
+        <label for="floatingInput">Last Name</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control input-field" placeholder="2033RC" id="postalCode" minlength="3" required>
+        <label for="floatingInput">Postal Code</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control input-field" placeholder="9a" id="houseNumber" minlength="1" required>
+        <label for="floatingInput">houseNumber</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control input-field" placeholder="" id="passwordRegister" minlength="7" required>
+        <label for="floatingInput">Password</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control input-field" placeholder="" id="passwordConfirm" minlength="7" required>
+        <label for="floatingInput">Confirm Password</label>
+      </div>
+      <button type="submit" class="submit-btn btn-account" id="signUp">Register</button>
+    </form>
+  </div>
+  </div>
 
-
-<script
-  src="https://code.jquery.com/jquery-3.6.3.min.js"
-  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-  crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-        $("#signUp").on('click',function() {
-            var firstname = $("#firstname").val();
-            var lastname = $("#lastname").val();
-            var email = $("#email").val();
-            var password = $("#password").val();
-            if(firstname == "" || lastname =="" || password == "")
-            {
-                alert("Please check if all fields are filled in!")
-            }
-            else{
-                $.ajax(
-                {
-                    url: 'login',
-                    method:"POST",
-                    data: {
-                        signup:1,
-                        firstname: firstname,
-                        lastname: lastname,
-                        email: email,
-                        password: password,
-                    },
-                    success: function(response){
-                        console.log(response);
-                    },
-                    dataType: 'Text',
-                }
-            );
-            }
-        });
-    })
-    </script>
-</body>
-
-<?php
-include __DIR__ . '/../footer.php';
-?>
+  <script src="/js/account/account.js"></script>

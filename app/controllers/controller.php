@@ -3,12 +3,9 @@ class Controller
 {
     private $productService;
     private $events;
-    function __construct()
-    {
-        include __DIR__ . '/../views/header.php';
-    }
     function displayView($models)
     {
+        include __DIR__ . '/../views/header.php';
         foreach ($models as $key => $value) {
             ${$key} = $value;
         }

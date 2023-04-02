@@ -8,7 +8,6 @@ class ProductsController extends Controller
 
     function __construct()
     {
-        parent::__construct();
         $this->productService = new ProductService();
     }
 
@@ -29,14 +28,16 @@ class ProductsController extends Controller
         }
         else{
             $models = [
-                "products" => $this->productService->getAll()
+                "products" => $this->productService->getAll(),
+                "categories" => $this->productService->getAllCategories()
             ];
             $this->displayView($models);
         }
     }
     public function productDetailPage($id){
         $models = [
-            "product" => $this->productService->getOne($id)
+            "product" => $this->productService->getOne($id),
+            
         ];
         $this->displayView($models);
     }

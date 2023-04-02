@@ -5,13 +5,11 @@ require_once __DIR__ . '/../models/account.php';
 class AccountRepository extends Repository
 {
 
-    function checkEmailExists()
+    function checkEmailExists($email)
     {
         try {
-            $email = $_POST['email'] ?? '';
-            $stmt = $this->connection->prepare("SELECT ID FROM Users WHERE email = ?");
+            $stmt = $this->connection->prepare("SELECT id FROM Users WHERE email = ?");
             $stmt->execute([$email]);
-
             $users = $stmt->fetchAll();
             if (empty($users)) {
                 return false;
@@ -19,10 +17,10 @@ class AccountRepository extends Repository
                 return true;
             }
         } catch (PDOException $e) {
-            throw new ErrorException("Iets is fout gegaan, probeer het op een later punt nogmaals.");
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
-    function registerAccount($firstname, $lastname, $email, $password, $postalcode, $housenumber)
+    function register($firstname, $lastname, $email, $password, $postalcode, $housenumber)
     {
         try {
             $stmt = $this->connection->prepare("INSERT INTO `Users`(`firstname`, `lastname`, `email`, `password`, `postalcode`, `housenumber`) 
@@ -30,7 +28,7 @@ class AccountRepository extends Repository
             $stmt->execute([$firstname, $lastname, $email, $password, $postalcode, $housenumber]);
             return true;
         } catch (Exception $e) {
-            throw new ErrorException($e->getMessage());
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
     function login()
@@ -62,7 +60,7 @@ class AccountRepository extends Repository
 
             return true;
         } catch (Exception $e) {
-            throw new ErrorException($e->getMessage());
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
 }
