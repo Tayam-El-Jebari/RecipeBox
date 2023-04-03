@@ -38,7 +38,7 @@ class ProductsController extends Controller
         $response = array(
             'status' => 1,
             'message' => '',
-            'products' => array()
+            'products' => ''
         );
         try {
             if (isset($data["cart"])  && is_array($data["cart"])) {

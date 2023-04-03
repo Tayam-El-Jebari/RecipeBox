@@ -1,5 +1,5 @@
 <?php
-class FoodCategory
+class FoodCategory implements JsonSerializable
 {
     private int $foodCategoryID;
     private string $foodCategoryName;
@@ -66,5 +66,15 @@ class FoodCategory
         $this->bannerImage = $bannerImage;
 
         return $this;
+    }
+
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        return [
+            'foodCategoryID' => $this->getFoodCategoryID(),
+            'foodCategoryName' => $this->getFoodCategoryName(),
+            //'bannerImage' => $this->getBannerImage()
+        ];
     }
 }

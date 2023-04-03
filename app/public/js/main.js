@@ -59,7 +59,7 @@ function addToCart(productId, quantity, productName) {
       });
     }
   
-  openAddToCartModal(productName + " has been sucessfully added to cart " + sanitizeHTML(quantity) +" time(s)", true)
+  openAddToCartModal(productName + " has been sucessfully added to cart " + encodeHTML(quantity) +" time(s)", true)
   sessionStorage.setItem('cart', JSON.stringify(cart));
   console.log(cart);
 }
@@ -91,3 +91,9 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     addToCart(productId, quantity, this.getAttribute('data-product-name'));
   });
 });
+
+function encodeHTML(s) {
+  s = String(s);
+  // replace &, <, and " with corresponding HTML entities (&amp;, &lt;, and &quot;).
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}

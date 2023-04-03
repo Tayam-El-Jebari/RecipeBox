@@ -1,9 +1,9 @@
 <?php
-require __DIR__ . '/foodCategory.php';
-require __DIR__ . '/ingredient.php';
+require_once __DIR__ . '/foodCategory.php';
+require_once __DIR__ . '/ingredient.php';
 
 
-class MealProduct
+class MealProduct implements JsonSerializable
 {
 
     private int $productId;
@@ -133,5 +133,21 @@ class MealProduct
     public function setIngredients(array $ingredients): void
     {
         $this->ingredients = $ingredients;
+    }
+    //return type will change because of return values differ in type 
+    // 000webhost doesn't have php 8.1, which is why : mixed isn't used
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        return [
+            'productId' => $this->getProductId(),
+            'foodCategory' => $this->getFoodCategory(),
+            'price' => $this->getPrice(),
+            'imageAddress' => $this->getImageAddress(),
+            'productName' => $this->getProductName(),
+            'kcal' => $this->getKcal(),
+            'allergens' => $this->getAllergens(),
+            'ingredients' => $this->getIngredients(),
+        ];
     }
 }

@@ -1,36 +1,50 @@
 <?php
 require_once __DIR__ . '/../repositories/productrepository.php';
-
-class ProductService {
+require_once __DIR__ . '/../models/order.php';
+class ProductService
+{
     private $repository;
-    function __construct() {
+    function __construct()
+    {
         $this->repository = new ProductRepository();
     }
-    public function getMostRecentFour() {
+    public function getMostRecentFour()
+    {
 
         return $this->repository->getMostRecentFour();
     }
-    public function getAll() {
+    public function getAll()
+    {
 
         return $this->repository->getAll();
     }
-    public function getCart($cart) {
-        $products = [];
+    public function getCart($cart)
+    {
+        $cartItems = [];
+        
         foreach ($cart as $item) {
-            $productId = $item['id'];
-            $product = $this->getOne($productId);
-    
-            if ($product->getProductId() !== null) {
-                $products[] = $product;
+            $quantity = $item['quantity'];
+            if ($quantity > 20) {
+                $quantity = 20;
+            }
+            if ($quantity > 0) {
+                $productId = $item['id'];
+                $order = new Order($this->repository->getOne($productId), $quantity);
+                if ($order->getProduct()->getProductId() !== null) {
+                    $cartItems[] = $order;
+                }
             }
         }
-        return $this->repository->getAll();
+       
+        return $cartItems;
     }
-    public function getOne($id) {
+    public function getOne($id)
+    {
         return $this->repository->getOne($id);
     }
 
-    public function getAllCategories(){
+    public function getAllCategories()
+    {
         return $this->repository->getAllCategories();
     }
 }

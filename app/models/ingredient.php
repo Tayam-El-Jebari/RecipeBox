@@ -1,6 +1,6 @@
 <?php 
 
-class Ingredient
+class Ingredient implements JsonSerializable
 {
 private string $ingredient;
 private int $ingredientWeight;
@@ -44,5 +44,13 @@ public function setIngredientWeight($ingredientsWeight)
 $this->ingredientWeight = $ingredientsWeight;
 
 return $this;
+}
+#[\ReturnTypeWillChange]
+public function jsonSerialize()
+{
+    return [
+        'ingredient' => $this->getIngredient(),
+        'ingredientWeight' => $this->getIngredientWeight(),
+    ];
 }
 }
