@@ -18,26 +18,6 @@ class ProductService
 
         return $this->repository->getAll();
     }
-    public function getCart($cart)
-    {
-        $cartItems = [];
-        
-        foreach ($cart as $item) {
-            $quantity = $item['quantity'];
-            if ($quantity > 20) {
-                $quantity = 20;
-            }
-            if ($quantity > 0) {
-                $productId = $item['id'];
-                $order = new Order($this->repository->getOne($productId), $quantity);
-                if ($order->getProduct()->getProductId() !== null) {
-                    $cartItems[] = $order;
-                }
-            }
-        }
-       
-        return $cartItems;
-    }
     public function getOne($id)
     {
         return $this->repository->getOne($id);

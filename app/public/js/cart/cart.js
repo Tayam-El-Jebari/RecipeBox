@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
     alertMessage.classList.add('alert-danger');
 
 
-    fetch('products/getCartItems', {
+
+    fetch('cart/getCartItems', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }).then(response => response.json())
         .then(data => {
             if (data.status === 1 && data['products'] !== null) {
+                updateSessionStorageCart(data['products']);
                 displayCart(data['products']);
             }
             else {
@@ -26,9 +28,21 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             alertMessage.classList.remove('d-none');
-            alertMessage.innerHTML = "Something went wrong loading cart! Please try again later" + error.message;
+            alertMessage.innerHTML = "Something went wrong loading cart! Please try again later";
         });
 
+    function updateSessionStorageCart(products) {
+        let updatedCart = [];
+
+        products.forEach(product => {
+            updatedCart.push({
+                id: product["product"]["productId"],
+                quantity: product["quantity"]
+            });
+        });
+
+        sessionStorage.setItem('cart', JSON.stringify(updatedCart));
+    }
 
     function displayCart(products) {
         updateTotal(products);
@@ -46,10 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
             cartItem.appendChild(createAndAppendTd(subtotal));
 
             quantity.addEventListener('input', () => {
+                const productId = quantity.id;
                 quantity.value = getValidQuantity(quantity.value);
                 const updatedSubtotal = (product["product"]["price"] * quantity.value).toFixed(2);
                 subtotal.innerHTML = `€${updatedSubtotal}`;
                 product["quantity"] = quantity.value;
+                updateProductQuantity(productId, quantity.value);
                 updateTotal(products);
             });
 
@@ -77,11 +93,11 @@ document.addEventListener('DOMContentLoaded', function () {
         quantity.value = product["quantity"];
         quantity.type = "number";
         quantity.min = 1;
+        quantity.id = product["product"]["productId"];
         quantity.classList.add("form-control");
 
         const removeButton = createElementWithText('button', 'Remove');
         removeButton.id = product["product"]["productId"];
-        console.log(removeButton.dataset)
         removeButton.classList.add("btn", "btn-danger");
 
         const subtotal = createElementWithText('p', `€${(product["product"]["price"] * product["quantity"]).toFixed(2)}`);
@@ -97,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const intValue = parseInt(value, 10);
         if (intValue > 0 && intValue === parseFloat(value) && intValue < 21) {
             return intValue;
-        } else if (intValue > 20){
+        } else if (intValue > 20) {
             return 20;
         } else {
             return 0;
@@ -112,7 +128,16 @@ document.addEventListener('DOMContentLoaded', function () {
         let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
         cart = cart.filter(item => item['id'] != (productId));
         sessionStorage.setItem('cart', JSON.stringify(cart));
-        console.log(sessionStorage.getItem('cart'))
+    }
+    function updateProductQuantity(productId, newQuantity) {
+        let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+        cart = cart.map(item => {
+            if (item['id'] == productId) {
+                item['quantity'] = newQuantity;
+            }
+            return item;
+        });
+        sessionStorage.setItem('cart', JSON.stringify(cart));
     }
     function updateTotal(products) {
         const total = calculateTotal(products);
@@ -120,13 +145,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function calculateTotal(products) {
         let total = 0;
-    
+
         products.forEach(product => {
             const price = product["product"]["price"];
             const quantity = product["quantity"];
             total += price * quantity;
         });
-    
+
         return total;
     }
 });

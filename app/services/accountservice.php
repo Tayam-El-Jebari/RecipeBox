@@ -54,8 +54,7 @@ class AccountService
         if (session_status() == PHP_SESSION_ACTIVE) {
             session_destroy();
         }
-        $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
-        header('Location: ' . $previousPage);
+        header('Location: /');
         exit();
     }
 

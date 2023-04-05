@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }).then(response => response.json())
             .then(data => {
                 if (data.status === 1) {
-                    window.history.back()
+                    document.location.href="/";
                 }
                 else{
                     alertMessage.classList.remove('d-none');

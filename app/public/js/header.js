@@ -7,3 +7,11 @@ window.addEventListener('scroll', function() {
     navigation.classList.remove('scrolling');
   }
 });
+function logout() {
+  fetch('account/logout', {
+    method: 'POST',
+}).then(() => {
+  sessionStorage.removeItem('cart');
+  location.reload();
+});
+}
