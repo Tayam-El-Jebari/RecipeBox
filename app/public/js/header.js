@@ -1,5 +1,5 @@
 window.addEventListener('scroll', function() {
-  var navigation = document.getElementById('navigation');
+  let navigation = document.getElementById('navigation');
 
   if (window.scrollY > navigation.offsetHeight) {
     navigation.classList.add('scrolling');

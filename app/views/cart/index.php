@@ -1,16 +1,24 @@
 <body>
-    <div class="container min-vh-85">
-        <div class="alert alert-danger d-none margin-top" id="alert" role="alert">
+<div class="alert alert-danger d-none margin-top" id="alert" role="alert"> </div>
+    <div class="container mt-7 min-vh-85">
+        <h1 class="mb-4">Shopping Cart</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity (max 20)</th>
+                    <th scope="col">Remove</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="cart">
 
+            </tbody>
+        </table>
+        <div class="text-end">
+            <h4 id="total">Total: <span>€0,-</span></h4>
         </div>
-        <h1 class="mt-3">Your Cart</h1>
-        <div id="cart">
-        <!-- The cart items will be dynamically inserted here -->
     </div>
-    <button id="continue-btn">Continue</button>
-
-    </div>
-    <script>
- 
-    </script>
     <script src="/js/cart/cart.js"></script>

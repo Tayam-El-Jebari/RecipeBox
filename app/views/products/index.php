@@ -36,11 +36,11 @@
                 </a>
                 <div class="flex-row">
                   <p class="price">€<span><?= number_format($product->getPrice(), 2, ',', '') ?>-</span></p>
-                  <div class="ml">
+                  <div class="product-quantity-box">
                     <label for="quantity">Quantity:</label>
                     <div class="input-group mb-3 quantity-box" data-product-id="<?= $product->getProductId()?>">
                       <button class="btn btn-outline-secondary" type="button" id="minus" style="background-color: black; color: white;">-</button>
-                      <input type="number" class="form-control text-center" id="quantity" name="quantity" min="1" value="1" style="background-color: black; color: white;" readonly>
+                      <input type="number" class="form-control text-center" id="quantity" name="quantity" min="1" max="20" value="1" style="background-color: black; color: white;" readonly>
                       <button class="btn btn-outline-secondary" type="button" id="plus" style="background-color: black; color: white;">+</button>
                     </div>
                   </div>
@@ -69,8 +69,7 @@
         </div>
       </div>
     </div>
-
-  <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">

@@ -1,4 +1,4 @@
-var params = window.location.pathname.split("/");
+const params = window.location.pathname.split("/");
 
 function setStyle(foldername, styleName) {
   var style = document.createElement('link');
@@ -65,7 +65,7 @@ function addToCart(productId, quantity, productName) {
 }
 }
 function openAddToCartModal(message, success) {
-  var alert = document.getElementById("alert");
+  const alert = document.getElementById("alert");
   alert.innerHTML = message;
   if(!success){
     alert.classList.remove("alert-success")

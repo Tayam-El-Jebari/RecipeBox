@@ -1,16 +1,9 @@
-.cart-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
+td img{
+    width:80%;
+    display: block;
+    max-height: 280px;
 
-.cart-item img {
-    width: 100px;
-    height: 100px;
     object-fit: cover;
-    margin-right: 1rem;
-}
-
-.cart-item button {
-    margin-left: 1rem;
+    margin-bottom: 16px;
+    object-position: 0% 20%;
 }

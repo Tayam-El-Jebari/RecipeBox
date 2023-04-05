@@ -37,20 +37,23 @@ class ProductsController extends Controller
         $data = json_decode($jsonData, true);
         $response = array(
             'status' => 1,
-            'message' => '',
-            'products' => ''
+            'message' => 'cart is empty! please go to products and press "add to cart"',
+            'products' => null
         );
         try {
             if (isset($data["cart"])  && is_array($data["cart"])) {
-                $products = $this->productService->getCart($data["cart"]);
-                $response['products'] = $products;
+                $cartItems = $this->productService->getCart($data["cart"]);
+                $response['products'] = $cartItems;
             }
             else{
-                throw new ErrorException("Invalid cart data");
+                $repsonse['message'] = "It seems the cart data has been corrupted. Please try clearing browser cache and refreshing.";
             }
         } catch (ErrorException $e) {
             $response['status'] = 0;
             $response['message'] = $e->getMessage();
+        }
+        if($response['products'] == null){
+            $response['status'] = 0;
         }
         echo json_encode($response);
     }
