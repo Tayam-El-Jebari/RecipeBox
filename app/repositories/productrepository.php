@@ -137,4 +137,34 @@ class ProductRepository extends Repository
         }
         return $ingredientArray;
     }
+
+    public function storeUserCartItem($userId, $item)
+    {
+        try {
+            $stmt = $this->connection->prepare("INSERT INTO userCarts (userId, mealId, quantity, isPaid) VALUES (?, ?, ?, 0)");
+            $stmt->execute([$userId, $item->getProduct()->getProductId(), $item->getQuantity()]);
+        } catch (PDOException $e) {
+            throw new ErrorException("Error storing cart item: " . $e->getMessage());
+        }
+    }
+public function checkIfCartItemExists($userId, $item)
+{
+    try {
+        $stmt = $this->connection->prepare("SELECT cartId FROM userCarts WHERE userId = ? AND mealId = ?");
+        $stmt->execute([$userId, $item->getProduct()->getProductId()]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new ErrorException("Error checking cart item: " . $e->getMessage());
+    }
+}
+public function updateUserCartItem($userId, $item)
+{
+    try {
+        $stmt = $this->connection->prepare("UPDATE userCarts SET isPaid = 1, quantity = ? WHERE userId = ? AND mealId = ?");
+        $stmt->execute([$item->getQuantity(), $userId, $item->getProduct()->getProductId()]);
+    } catch (PDOException $e) {
+        throw new ErrorException("Error updating cart item: " . $e->getMessage());
+    }
+}
+
 }

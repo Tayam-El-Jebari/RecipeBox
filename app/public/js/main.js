@@ -30,6 +30,7 @@ document.querySelectorAll('.quantity-box').forEach(quantityBox => {
 
   plusBtn.addEventListener('click', () => {
     let currentValue = parseInt(quantityInput.value);
+    if(currentValue < 20) 
     quantityInput.value = currentValue + 1;
   });
 });
@@ -76,10 +77,9 @@ function openAddToCartModal(message, success) {
     alert.classList.add("alert-success")
   }
 
-  const addToCartModal = document.getElementById('addToCartModal');
-  const modalInstance = new bootstrap.Modal(addToCartModal, {
-  });
-  modalInstance.show();
+  const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+  addToCartModal.show();
+
 }
 
 document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
