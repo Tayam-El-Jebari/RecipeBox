@@ -71,7 +71,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-body">
-          <div class="alert alert-success margin-top" id="alert" role="alert">
+          <div class="alert alert-success margin-top" id="alertModal" role="alert">
 
           </div>
         </div>

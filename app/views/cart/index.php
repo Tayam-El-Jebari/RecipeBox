@@ -19,7 +19,7 @@
         </table>
         <div class="text-end">
             <h4 id="total">Total: <span>€0,-</span></h4>
-            <button class ="icon-link add-to-cart-btn">Continue</button>
+            <button class ="icon-link add-to-cart-btn" id="continueButton"disabled>CART IS EMPTY</button>
         </div>
     </div>
     <script src="/js/cart/cart.js"></script>

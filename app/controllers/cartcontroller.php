@@ -20,52 +20,64 @@ class CartController extends Controller
     {
         $jsonData = file_get_contents('php://input');
         $data = json_decode($jsonData, true);
-        $response = array(
-            'status' => 1,
+    
+        $response = [
+            'status' => 0,
             'message' => 'cart is empty! please go to products and press "add to cart"',
             'products' => null
-        );
+        ];
+    
         try {
-            if (isset($data["cart"])  && is_array($data["cart"])) {
-                $cartItems = $this->cartService->getCart($data["cart"]);
-                $response['products'] = $cartItems;
+            if (isset($data["cart"]) && is_array($data["cart"])) {
+                $getCartItemsResult = $this->cartService->getCart($data["cart"]);
+    
+                if (!empty($getCartItemsResult['items'])) {
+                    $response['products'] = $getCartItemsResult['items'];
+                    $response['message'] = $getCartItemsResult['message'];
+                    //status of 1 means cart loaded succesfully, 2 means cart loaded succesfully AND user is logged in
+                    $response['status'] = isset($_SESSION['userID']) ? 2 : 1;
+                }
             } else {
-                $repsonse['message'] = "It seems the cart data has been corrupted. Please try clearing browser cache and refreshing.";
+                $response['message'] = "It seems the cart data has been corrupted. Please try clearing browser cache and refreshing.";
             }
         } catch (ErrorException $e) {
-            $response['status'] = 0;
             $response['message'] = $e->getMessage();
         }
-        if ($response['products'] == null) {
-            $response['status'] = 0;
-        }
+    
         echo json_encode($response);
     }
     public function processPayment()
     {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         $response = [
+            //retrieving information error
             'status' => 0,
-            'message' => 'Please login first to continue.',
+            'message' => 'Something went wrong while processing. Please try again later',
         ];
 
-        if (isset($_SESSION['user_id'])) {
+        if (isset($_SESSION['userID'])) {
             $jsonData = file_get_contents('php://input');
             $data = json_decode($jsonData, true);
 
             try {
                 if (isset($data["cart"]) && is_array($data["cart"])) {
-                    $this->cartService->storeUserCart($_SESSION['user_id'], $data["cart"]);
+                    $this->cartService->storeUserCart($_SESSION['userID'], $data["cart"]);
 
                     $response['status'] = 1;
-                    $response['message'] = 'Payment processed successfully.';
+                    $response['message'] = 'Payment processed successfully! You can now view the order status on your personal page';
                 } else {
                     $response['message'] = 'Invalid or corrupted cart data.';
                 }
             } catch (ErrorException $e) {
                 $response['message'] = $e->getMessage();
             }
+        } else{
+            //user isn't logged in
+            $response['status'] = 2;
+            $response['message'] = 'Please login first to continue.';
         }
 
         echo json_encode($response);

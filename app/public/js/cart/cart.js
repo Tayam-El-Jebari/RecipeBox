@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalElement = document.getElementById('total');
     alertMessage.classList.remove('alert-success');
     alertMessage.classList.add('alert-danger');
+    const continueButton = document.getElementById("continueButton");
 
 
 
@@ -16,21 +17,29 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }).then(response => response.json())
         .then(data => {
-            if (data.status === 1 && data['products'] !== null) {
+            if ((data.status === 1 || data.status === 2) && data['products'] !== null) {
+                continueButton.innerHTML = "PLEASE LOGIN FIRST TO CONTINUE";
                 updateSessionStorageCart(data['products']);
                 displayCart(data['products']);
+                if(data.status === 2){
+                    configureContinueButton();
+                }
+                if(data['message'] != ''){
+                    showAlertMessage(data['message']);
+                }
             }
             else {
-                alertMessage.classList.remove('d-none');
-                alertMessage.innerHTML = data.message;
+                showAlertMessage(data['message']);
+            }if( data['products'] === null){
+                updateSessionStorageCart([]);
             }
 
         })
         .catch(error => {
-            alertMessage.classList.remove('d-none');
-            alertMessage.innerHTML = "Something went wrong loading cart! Please try again later";
+            showAlertMessage("It seems like loading the cart failed. We fixed the issue for you, but sadly it does mean the data in the cart is lost. We apologize for any inconvenience.");
+            sessionStorage.removeItem('cart')
         });
-
+        
     function updateSessionStorageCart(products) {
         let updatedCart = [];
 
@@ -40,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 quantity: product["quantity"]
             });
         });
-
         sessionStorage.setItem('cart', JSON.stringify(updatedCart));
     }
 
@@ -104,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return [productImage, productName, productPrice, quantity, removeButton, subtotal];
     }
+    
     function createAndAppendTd(content) {
         const td = document.createElement('td');
         td.appendChild(content);
@@ -154,4 +163,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return total;
     }
+
+    function configureContinueButton(){
+        continueButton.disabled = false;
+        continueButton.innerHTML = "CONTINUE";
+        continueButton.addEventListener('click', (event) => {
+            processPayment();
+        });
+    }
+
+    function processPayment(){
+        fetch('cart/processPayment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cart: JSON.parse(sessionStorage.getItem('cart') || '[]'),
+            })
+        }).then(response => response.json())
+            .then(data => {
+                alertMessage.classList.remove('d-none');
+                if (data.status === 1) {
+                    alertMessage.classList.remove('alert-danger');
+                    alertMessage.classList.add('alert-success');
+                    deleteAllCartItems();
+                }
+                showAlertMessage(data.message);
+            })
+            .catch(error => {
+                showAlertMessage("It seems like loading the cart failed. We fixed the issue for you, but sadly it does mean the data in the cart is lost. We apologize for any inconvenience." +error.message);
+                sessionStorage.removeItem('cart')
+            });
+    }
+    function showAlertMessage(stringMessage){
+        alertMessage.classList.remove('d-none');
+        alertMessage.innerHTML = stringMessage;
+    }
+    function deleteAllCartItems(){
+        const cartItems = document.querySelectorAll('.cart-item');
+        cartItems.forEach(item => item.remove());
+        sessionStorage.setItem('cart', JSON.stringify([]));
+        updateTotal([])
+    }
+    
 });

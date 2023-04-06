@@ -1,4 +1,5 @@
 const params = window.location.pathname.split("/");
+const alert = document.getElementById("alertModal");
 
 function setStyle(foldername, styleName) {
   var style = document.createElement('link');
@@ -36,8 +37,13 @@ document.querySelectorAll('.quantity-box').forEach(quantityBox => {
 });
 
 
+try{
+  var cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+}catch{
+  openAddToCartModal("It seems like loading the cart failed. We fixed the issue for you, but sadly it does mean the data in the cart is lost. We apologize for any inconvenience.", false)
+  var cart = []
+}
 
-let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
 function addToCart(productId, quantity, productName) {
   quantity = Math.max(quantity, 1);
@@ -62,11 +68,9 @@ function addToCart(productId, quantity, productName) {
   
   openAddToCartModal(productName + " has been sucessfully added to cart " + encodeHTML(quantity) +" time(s)", true)
   sessionStorage.setItem('cart', JSON.stringify(cart));
-  console.log(cart);
 }
 }
 function openAddToCartModal(message, success) {
-  const alert = document.getElementById("alert");
   alert.innerHTML = message;
   if(!success){
     alert.classList.remove("alert-success")

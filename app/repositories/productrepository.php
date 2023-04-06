@@ -152,7 +152,7 @@ public function checkIfCartItemExists($userId, $item)
     try {
         $stmt = $this->connection->prepare("SELECT cartId FROM userCarts WHERE userId = ? AND mealId = ?");
         $stmt->execute([$userId, $item->getProduct()->getProductId()]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return !empty($stmt->fetch(PDO::FETCH_ASSOC));
     } catch (PDOException $e) {
         throw new ErrorException("Error checking cart item: " . $e->getMessage());
     }
@@ -160,7 +160,7 @@ public function checkIfCartItemExists($userId, $item)
 public function updateUserCartItem($userId, $item)
 {
     try {
-        $stmt = $this->connection->prepare("UPDATE userCarts SET isPaid = 1, quantity = ? WHERE userId = ? AND mealId = ?");
+        $stmt = $this->connection->prepare("UPDATE userCarts SET isPaid = 1, quantity = quantity + ? WHERE userId = ? AND mealId = ?");
         $stmt->execute([$item->getQuantity(), $userId, $item->getProduct()->getProductId()]);
     } catch (PDOException $e) {
         throw new ErrorException("Error updating cart item: " . $e->getMessage());

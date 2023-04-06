@@ -7,3 +7,9 @@ td img{
     margin-bottom: 16px;
     object-position: 0% 20%;
 }
+.icon-link:disabled,
+.icon-link[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc !important;
+  color: #333 !important;
+}
