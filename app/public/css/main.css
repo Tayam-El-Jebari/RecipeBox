@@ -188,7 +188,12 @@ span.stretch {
   .icon-link:hover > .rubicons {
     transform: translate(3px, -3px);
   }
-  
+  .bg-yellow{
+    background-color: #FBF2C4;
+  }
+  .max-vw-85{
+    max-width: 85vw;
+  }
   .hide {
     display: none;
   }

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchInput.addEventListener('input', filterProducts);
     categoryFilter.forEach(radio => radio.addEventListener('change', filterProducts));
-
+    
     function filterProducts() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedCategory = document.querySelector('#category-filter input[type="radio"]:checked').value;
@@ -24,4 +24,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    filterProducts();
 });

@@ -26,7 +26,6 @@ class AccountService
             throw new ErrorException($e->getMessage());
         }
     }
-
     public function login($email, $password)
     {
         try {
@@ -40,6 +39,15 @@ class AccountService
                 $user = $this->repository->getUser($email);
                 return $user;
             }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function getUser($userID)
+    {
+        try {
+            $user = $this->repository->getUserById($userID);
+            return $user;
         } catch (Exception $e) {
             throw $e;
         }

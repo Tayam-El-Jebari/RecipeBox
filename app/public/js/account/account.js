@@ -102,4 +102,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
     });
+    
+    document.querySelector('#changeInformation').addEventListener('submit', function (e) {
+        e.preventDefault();
+    
+        fetch('account/updateAccount', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName: document.querySelector('#firstName').value,
+                lastName: document.querySelector('#lastName').value,
+                email: document.querySelector('#email').value,
+                postalCode: document.querySelector('#postalCode').value,
+                houseNumber: document.querySelector('#houseNumber').value,
+            })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.status === 1) {
+                    // Show success message, update UI, or perform any other action
+                } else {
+                    // Show an error message or handle the error
+                }
+            })
+            .catch(error => {
+                // Handle the error
+            });
+    });
 })

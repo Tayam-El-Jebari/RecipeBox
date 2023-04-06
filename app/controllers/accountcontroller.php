@@ -14,7 +14,7 @@ class AccountController extends Controller
     public function index()
     {
         if (isset($_SESSION['userID'])) {
-            //$this->overview();
+            $this->overview();
         } else {
             $models = [];
             $this->displayView($models);
@@ -67,5 +67,35 @@ class AccountController extends Controller
     public function logout()
     {
         $this->service->logout();
+    }
+    public function overview()
+    {
+        if (isset($_SESSION['userID'])) {
+            $models = [
+                "account" => $this->service->getUser($_SESSION['userID'])
+            ];
+            $this->displayView($models);
+        }
+    }
+    public function updateAccount()
+    {
+    $response = array(
+        'status' => 1,
+        'message' => 'Account information has been successfully updated!'
+    );
+
+    // Read the JSON data from the request body
+    $json_data = file_get_contents("php://input");
+    $data = json_decode($json_data, true);
+
+    try {
+        // Replace the `updateUser` method with the actual method in your service class
+        $this->service->updateUser($data["firstName"], $data["lastName"], $data["email"], $data["postalCode"], $data["houseNumber"]);
+    } catch (ErrorException $e) {
+        $response['status'] = 0;
+        $response['message'] = $e->getMessage();
+    }
+
+    echo json_encode($response);
     }
 }

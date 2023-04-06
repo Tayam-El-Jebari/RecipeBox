@@ -53,4 +53,16 @@ class AccountRepository extends Repository
             throw new ErrorException("It seems something went wrong with our database! Please try again later.");
         }
     }
+    function getUserById($id)
+    {
+        try {
+            $stmt = $this->connection->prepare("SELECT `id`, `firstname`, `lastname`, `email`, `password`, `postalcode`, `housenumber` FROM `Users` WHERE id = ?");
+            $stmt->execute([$id]);
+            $userData = $stmt->fetch();
+            $user = new Account($userData['id'], $userData['firstname'], $userData['lastname'], $userData['email'], $userData['password'], $userData['postalcode'], $userData['housenumber']);            
+            return $user;
+        } catch (Exception $e) {
+            throw new ErrorException("It seems something went wrong with our database! Please try again later.");
+        }
+    }
 }

@@ -11,15 +11,17 @@
 
 
   <div class="container">
-    <?php
-    foreach ($foodCategories as $foodCategory) {
-      echo '<div class="card" id="card-banner">';
-      echo '<img id="card-img-banner" src="' . $foodCategory->getBannerImage() . '" alt="' . $foodCategory->getFoodCategoryName() . ' banner image"> </img>';
-      echo '<div class="card-img-overlay text-white d-flex flex-column justify-content-center">';
-      echo '<h4 class="card-title" id="card-title-banner">' . ucfirst($foodCategory->getFoodCategoryName()) . ' products</h4>';
-      echo '<div class="link d-flex"></div></div></div>';
-    }
-    ?>
+    <?php foreach ($foodCategories as $foodCategory) { ?>
+      <div class="card" id="card-banner">
+        <a href="/products?foodcategory=<?= $foodCategory->getFoodCategoryID() ?>&<?= str_replace(" ", "-", $foodCategory->getFoodCategoryName()) ?>">
+        <img id="card-img-banner" src="<?= $foodCategory->getBannerImage() ?>" alt="<?= $foodCategory->getFoodCategoryName() ?> banner image"> </img>
+        <div class="card-img-overlay text-white d-flex flex-column justify-content-center">
+          <h4 class="card-title" id="card-title-banner"><?= ucfirst($foodCategory->getFoodCategoryName()) ?> products</h4>
+          <div class="link d-flex"></div>
+        </div>
+        </a>
+      </div>
+    <?php } ?>
   </div>
   <h1 class="text-center">Recently added products:</h1>
   <hr>
@@ -36,7 +38,7 @@
         </a>
         <div class="flex-row">
           <p class="price">€<span><?= number_format($product->getPrice(), 2, ',', '') ?>-</span></p>
-          <div class="ml-auto">
+          <div class="ml-auto text-center">
             <label for="quantity">Quantity:</label>
             <div class="input-group mb-3 quantity-box" data-product-id="<?= $product->getProductId() ?>">
               <button class="btn btn-outline-secondary" type="button" id="minus" style="background-color: black; color: white;">-</button>
@@ -68,19 +70,18 @@
     <hr>
     </hr>
     <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="alert alert-success margin-top" id="alertModal" role="alert">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="alert alert-success margin-top" id="alertModal" role="alert">
 
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue browsing</button>
-          <a href="/cart" class="btn btn-primary">Go to cart</a>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue browsing</button>
+            <a href="/cart" class="btn btn-primary">Go to cart</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
-  

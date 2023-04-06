@@ -14,7 +14,7 @@ function setStyle(foldername, styleName) {
 }
 setStyle(params[1], params[1]);
 if (params[2] != "") {
-  setStyle(params[1], "detailPage")
+  setStyle(params[1], params[2])
 }
 
 document.querySelectorAll('.quantity-box').forEach(quantityBox => {

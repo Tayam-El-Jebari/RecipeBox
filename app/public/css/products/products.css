@@ -35,7 +35,9 @@
   margin: 0px;
   min-width: 100vw;
 }
-
+.price{
+  margin-right:auto;
+}
 .quantity-box {
   max-width: 8vw;
   min-width: 8vw;

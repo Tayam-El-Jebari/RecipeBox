@@ -13,7 +13,9 @@
             </div>
             <?php foreach ($categories as $categorie) { ?>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="category" id="<?= $categorie->getFoodCategoryName() ?>" value="<?= $categorie->getFoodCategoryID() ?>">
+                <input class="form-check-input" type="radio" name="category" id="<?= $categorie->getFoodCategoryName() ?>" value="<?= $categorie->getFoodCategoryID() ?>"
+                <?php //checks if the URL contains a food category so it already selects the correct one 
+                if(isset($_GET['foodcategory'])){if($_GET['foodcategory'] == $categorie->getFoodCategoryID()){ ?>checked<?php }}?>>
                 <label class="form-check-label" for="<?= $categorie->getFoodCategoryName() ?>"><?= $categorie->getFoodCategoryName() ?></label>
               </div>
             <?php } ?>
@@ -36,7 +38,7 @@
                 </a>
                 <div class="flex-row">
                   <p class="price">€<span><?= number_format($product->getPrice(), 2, ',', '') ?>-</span></p>
-                  <div class="product-quantity-box">
+                  <div class="product-quantity-box text-center">
                     <label for="quantity">Quantity:</label>
                     <div class="input-group mb-3 quantity-box" data-product-id="<?= $product->getProductId()?>">
                       <button class="btn btn-outline-secondary" type="button" id="minus" style="background-color: black; color: white;">-</button>
