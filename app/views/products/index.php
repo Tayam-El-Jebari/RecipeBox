@@ -13,9 +13,10 @@
             </div>
             <?php foreach ($categories as $categorie) { ?>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="category" id="<?= $categorie->getFoodCategoryName() ?>" value="<?= $categorie->getFoodCategoryID() ?>"
-                <?php //checks if the URL contains a food category so it already selects the correct one 
-                if(isset($_GET['foodcategory'])){if($_GET['foodcategory'] == $categorie->getFoodCategoryID()){ ?>checked<?php }}?>>
+                <input class="form-check-input" type="radio" name="category" id="<?= $categorie->getFoodCategoryName() ?>" value="<?= $categorie->getFoodCategoryID() ?>" <?php //checks if the URL contains a food category so it already selects the correct one 
+                                                                                                                                                                          if (isset($_GET['foodcategory'])) {
+                                                                                                                                                                            if ($_GET['foodcategory'] == $categorie->getFoodCategoryID()) { ?>checked<?php }
+                                                                                                                                                                          } ?>>
                 <label class="form-check-label" for="<?= $categorie->getFoodCategoryName() ?>"><?= $categorie->getFoodCategoryName() ?></label>
               </div>
             <?php } ?>
@@ -40,7 +41,7 @@
                   <p class="price">€<span><?= number_format($product->getPrice(), 2, ',', '') ?>-</span></p>
                   <div class="product-quantity-box text-center">
                     <label for="quantity">Quantity:</label>
-                    <div class="input-group mb-3 quantity-box" data-product-id="<?= $product->getProductId()?>">
+                    <div class="input-group mb-3 quantity-box" data-product-id="<?= $product->getProductId() ?>">
                       <button class="btn btn-outline-secondary" type="button" id="minus" style="background-color: black; color: white;">-</button>
                       <input type="number" class="form-control text-center" id="quantity" name="quantity" min="1" max="20" value="1" style="background-color: black; color: white;" readonly>
                       <button class="btn btn-outline-secondary" type="button" id="plus" style="background-color: black; color: white;">+</button>
@@ -48,7 +49,7 @@
                   </div>
                 </div>
                 <div class="btn-col">
-                  <a class="icon-link add-to-cart-btn" data-product-id="<?= $product->getProductId(); ?>" data-product-name="<?= $product->getProductName(); ?>" >
+                  <a class="icon-link add-to-cart-btn" data-product-id="<?= $product->getProductId(); ?>" data-product-name="<?= $product->getProductName(); ?>">
                     add to cart
                     <svg fill="none" class="rubicons arrow-right-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path d="M17.9645 12.9645l.071-7h-7.071" stroke-linecap="round"></path>
@@ -72,22 +73,18 @@
       </div>
     </div>
     <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-      <div class="alert alert-success margin-top" id="alertModal" role="alert">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="alert alert-success margin-top" id="alertModal" role="alert">
 
-      </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue browsing</button>
-        <a href="/cart" class="btn btn-primary">Go to cart</a>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue browsing</button>
+            <a href="/cart" class="btn btn-primary">Go to cart</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-
-  </div>
-
-  <script src="/js/products/products.js"></script>

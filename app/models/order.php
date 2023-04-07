@@ -7,31 +7,19 @@ class Order implements JsonSerializable
 {
     private MealProduct $product;
     private int $quantity;
-
-    public function __construct ($mealProduct, $quantity) {
+    private DateTime $paidDateTime;
+    private string $status;
+    public function __construct($mealProduct, $quantity, $paidDateTime = null, $status = '') {
+        // make default value for dateTime
+        if ($paidDateTime === null) {
+            $paidDateTime = new DateTime();
+        }
         $this->product = $mealProduct;
         $this->quantity = $quantity;
+        $this->paidDateTime = $paidDateTime;
+        $this->status = $status;
     }
 
-    /**
-     * Get the value of product
-     */ 
-    public function getProduct()
-    {
-        return $this->product;
-    }
-
-    /**
-     * Set the value of product
-     *
-     * @return  self
-     */ 
-    public function setProduct($product)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
 
     /**
      * Get the value of quantity
@@ -58,6 +46,68 @@ class Order implements JsonSerializable
         return [
             'product' => $this->getProduct(),
             'quantity' => $this->getQuantity(),
+            'status' => $this->getStatus(),
+            'paid on' => $this->getPaidDateTime(),
         ];
+    }
+
+    /**
+     * Get the value of paidDateTime
+     */ 
+    public function getPaidDateTime()
+    {
+        return $this->paidDateTime;
+    }
+
+    /**
+     * Set the value of paidDateTime
+     *
+     * @return  self
+     */ 
+    public function setPaidDateTime($paidDateTime)
+    {
+        $this->paidDateTime = $paidDateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */ 
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of product
+     */ 
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set the value of product
+     *
+     * @return  self
+     */ 
+    public function setProduct($product)
+    {
+        $this->product = $product;
+
+        return $this;
     }
 }

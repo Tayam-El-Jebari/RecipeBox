@@ -22,4 +22,3 @@
             <button class ="icon-link add-to-cart-btn" id="continueButton"disabled>CART IS EMPTY</button>
         </div>
     </div>
-    <script src="/js/cart/cart.js"></script>

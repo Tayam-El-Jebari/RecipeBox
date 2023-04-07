@@ -1,0 +1,23 @@
+.list-group-item {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+
+  .order-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .order-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+
+  .order-details {
+    flex-grow: 1;
+  }
+  #changeInformation{
+    display:block !important;
+  }

@@ -14,6 +14,7 @@ function register() {
     loginButton.style.color = "#262626";
     registerButton.style.color = "rgb(214,199,39)";
     form.style.height = "80vh";
+    loginForm.reset;
     alertMessage.classList.add("d-none")
 };
 
@@ -25,6 +26,7 @@ function login() {
     loginButton.style.color = "rgb(214,199,39)";
     form.style.height = "50vh";
     alertMessage.classList.add("d-none")
+    registerForm.reset;
 };
 function checkPassword(password, confirmPassword) {
     if (password != confirmPassword) {
@@ -35,8 +37,8 @@ function checkPassword(password, confirmPassword) {
     return true;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector('#register').addEventListener('submit', function (e) {
+
+    registerForm.addEventListener('submit', function (e) {
         e.preventDefault(); 
         alertMessage.classList.remove('alert-success');
         alertMessage.classList.add('alert-danger');
@@ -57,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then(response => response.json())
                 .then(data => {
                     if (data.status === 1) {
-                        document.querySelector('#register').reset();
+                        registerForm.reset();
                         alertMessage.classList.remove('alert-danger');
                         alertMessage.classList.add('alert-success');
                     }
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    document.querySelector('#login').addEventListener('submit', function (e) {
+    loginForm.addEventListener('submit', function (e) {
         e.preventDefault(); 
         alertMessage.classList.remove('alert-success');
         alertMessage.classList.add('alert-danger');
@@ -102,32 +104,3 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
     });
-    
-    document.querySelector('#changeInformation').addEventListener('submit', function (e) {
-        e.preventDefault();
-    
-        fetch('account/updateAccount', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstName: document.querySelector('#firstName').value,
-                lastName: document.querySelector('#lastName').value,
-                email: document.querySelector('#email').value,
-                postalCode: document.querySelector('#postalCode').value,
-                houseNumber: document.querySelector('#houseNumber').value,
-            })
-        }).then(response => response.json())
-            .then(data => {
-                if (data.status === 1) {
-                    // Show success message, update UI, or perform any other action
-                } else {
-                    // Show an error message or handle the error
-                }
-            })
-            .catch(error => {
-                // Handle the error
-            });
-    });
-})

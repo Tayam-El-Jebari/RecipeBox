@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
     const alertMessage = document.getElementById("alert");
     const totalElement = document.getElementById('total');
     alertMessage.classList.remove('alert-success');
@@ -15,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
         body: JSON.stringify({
             cart: JSON.parse(sessionStorage.getItem('cart') || '[]'),
         })
-    }).then(response => response.json())
-        .then(data => {
+    })  .then(response => response.json())
+    .then(data => {
             if ((data.status === 1 || data.status === 2) && data['products'] !== null) {
                 continueButton.innerHTML = "PLEASE LOGIN FIRST TO CONTINUE";
                 updateSessionStorageCart(data['products']);
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }if( data['products'] === null){
                 updateSessionStorageCart([]);
             }
-
         })
         .catch(error => {
             showAlertMessage("It seems like loading the cart failed. We fixed the issue for you, but sadly it does mean the data in the cart is lost. We apologize for any inconvenience.");
@@ -206,5 +204,3 @@ document.addEventListener('DOMContentLoaded', function () {
         sessionStorage.setItem('cart', JSON.stringify([]));
         updateTotal([])
     }
-    
-});

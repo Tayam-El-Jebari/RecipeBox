@@ -3,6 +3,7 @@
 body{
     background-color: #f7e489;
     font-family: Open sans, serif, Courier Bold, Courier, Georgia, Times;
+    overflow-x: hidden; 
 }
 .attention-text{
     font-size:larger;
@@ -184,7 +185,9 @@ span.stretch {
   .icon-link:hover {
     background: #333;
   }
-  
+  .width-100{
+width:100%
+  }
   .icon-link:hover > .rubicons {
     transform: translate(3px, -3px);
   }
@@ -203,6 +206,9 @@ span.stretch {
   }
   .min-vh-85 {
     min-height: 85vh!important;
+}
+.vw-20{
+  width: 20vw;
 }
 .product-grid-detailed{
   grid-template-columns: repeat(2, 1fr) !important;

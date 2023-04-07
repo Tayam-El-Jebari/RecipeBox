@@ -15,7 +15,13 @@
   <link href="/css/header.css" rel="stylesheet">
   <link href="/css/main.css" rel="stylesheet">
   <link href="/css/footer.css" rel="stylesheet">
-  
+  <link href="/css/products/products.css" rel="stylesheet">
+  <link href="/css/account/account.css" rel="stylesheet">
+  <link href="/css/account/overview.css" rel="stylesheet">
+  <link href="/css/cart/cart.css" rel="stylesheet">
+  <link href="/css/home.css" rel="stylesheet">
+
+
 </head>
 
 <header>
@@ -30,7 +36,6 @@
           <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
         </ul>
         <div class="user-options ml-auto">
-        <?php if (isset($_SESSION['userID'])) { ?><p class="welcome-text"> welkom <?= htmlspecialchars($_SESSION['firstname']) ?> </p> <?php } ?>
         <div class="option"><a href="/account"><i class="fa fa-user fa-2x"></i></a></div>
           <div class="option"><a href="/cart"><i class="fa fa-shopping-cart fa-2x"></i></a></div>
           <?php if (isset($_SESSION['userID']) ) { ?>

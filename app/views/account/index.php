@@ -1,9 +1,9 @@
 <body>
+
 <div class="min-vh-85">
   <div id="form-box">
-    <div class="alert alert-danger d-none" id="alert" role="alert">
-
-    </div>
+  <div class="alert alert-danger d-none" id="alert" role="alert">
+</div>
     <div class="button-box">
       <div id="btn"></div>
       <button type="button" class="sign-up btn-account" id="loginbtn" onclick="login()">Log in</button>
@@ -20,12 +20,12 @@
       </div>
       <button type="submit" class="submit-btn btn-account">Log in</button>
     </form>
+
     <form id="register" class="input-group" method="POST">
       <div class="form-floating">
         <input type="email" class="form-control input-field" placeholder="name@example.com" id="emailRegister" minlength="7" required>
         <label for="floatingInput">Email address</label>
       </div>
-
       <div class="form-floating">
         <input type="text" class="form-control input-field" placeholder="Pieter" id="firstName" minlength="3" required>
         <label for="floatingInput">Fist Name</label>
@@ -54,5 +54,3 @@
     </form>
   </div>
   </div>
-
-  <script src="/js/account/account.js"></script>

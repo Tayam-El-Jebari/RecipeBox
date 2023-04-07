@@ -37,7 +37,13 @@
     border-radius: 30px;
     transition: .5s;
   }
-  .input-group{
+  #login{
+    top: 180px;
+    position: absolute;
+    width: 280px;
+    transition: .5s;
+  }
+  #register{
     top: 180px;
     position: absolute;
     width: 280px;

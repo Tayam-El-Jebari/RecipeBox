@@ -1,15 +1,20 @@
 <?php
 require_once __DIR__ . '/controller.php';
 require __DIR__ . '/../services/accountservice.php';
+require __DIR__ . '/../services/cartservice.php';
 require_once __DIR__ . '/../models/account.php';
+
 
 class AccountController extends Controller
 {
-    private $service;
+    private $accountService;
+    private $cartService;
 
     function __construct()
     {
-        $this->service = new AccountService();
+        $this->accountService = new AccountService();
+        $this->cartService = new CartService();
+
     }
     public function index()
     {
@@ -19,8 +24,7 @@ class AccountController extends Controller
             $models = [];
             $this->displayView($models);
         }
-    }
-    public function createAccount()
+    }public function createAccount()
     {
         $response = array(
             'status' => 1,
@@ -29,12 +33,19 @@ class AccountController extends Controller
         // Read the JSON data from the request body
         $json_data = file_get_contents("php://input");
         $data = json_decode($json_data, true);
-        try {
-            $this->service->register($data["firstName"], $data["firstName"], $data["email"], $data["password"], $data["postalCode"], $data["houseNumber"]);
-        } catch (ErrorException $e) {
+        
+        if ($data !== null) {
+            try {
+                $this->accountService->register($data["firstName"], $data["lastName"], $data["email"], $data["password"], $data["postalCode"], $data["houseNumber"]);
+            } catch (ErrorException $e) {
+                $response['status'] = 0;
+                $response['message'] = $e->getMessage();
+            }
+        } else {
             $response['status'] = 0;
-            $response['message'] = $e->getMessage();
+            $response['message'] = "Invalid input data format. Please check the provided data.";
         }
+    
         echo json_encode($response);
     }
     public function login()
@@ -48,7 +59,7 @@ class AccountController extends Controller
 
         try {
             if (isset($data["email"]) && isset($data["password"])) {
-                $user = $this->service->login($data["email"], $data["password"]);
+                $user = $this->accountService->login($data["email"], $data["password"]);
                 if (session_status() == PHP_SESSION_NONE) {
                     session_start();
                 }
@@ -66,13 +77,14 @@ class AccountController extends Controller
     }
     public function logout()
     {
-        $this->service->logout();
+        $this->accountService->logout();
     }
     public function overview()
     {
         if (isset($_SESSION['userID'])) {
             $models = [
-                "account" => $this->service->getUser($_SESSION['userID'])
+                "account" => $this->accountService->getUser($_SESSION['userID']),
+                "ordersPaid" => $this->cartService->getMostRecentPaidOrders($_SESSION['userID']),
             ];
             $this->displayView($models);
         }
@@ -89,8 +101,7 @@ class AccountController extends Controller
     $data = json_decode($json_data, true);
 
     try {
-        // Replace the `updateUser` method with the actual method in your service class
-        $this->service->updateUser($data["firstName"], $data["lastName"], $data["email"], $data["postalCode"], $data["houseNumber"]);
+        $this->accountService->updateUser($_SESSION['userID'], $data["firstName"], $data["lastName"], $data["email"], $data["postalCode"], $data["houseNumber"]);
     } catch (ErrorException $e) {
         $response['status'] = 0;
         $response['message'] = $e->getMessage();

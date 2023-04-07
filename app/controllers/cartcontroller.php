@@ -29,7 +29,7 @@ class CartController extends Controller
     
         try {
             if (isset($data["cart"]) && is_array($data["cart"])) {
-                $getCartItemsResult = $this->cartService->getCart($data["cart"]);
+                $getCartItemsResult = $this->cartService->getCart($data["cart"], $_SESSION['userID'] ?? null);
     
                 if (!empty($getCartItemsResult['items'])) {
                     $response['products'] = $getCartItemsResult['items'];
@@ -37,8 +37,6 @@ class CartController extends Controller
                     //status of 1 means cart loaded succesfully, 2 means cart loaded succesfully AND user is logged in
                     $response['status'] = isset($_SESSION['userID']) ? 2 : 1;
                 }
-            } else {
-                $response['message'] = "It seems the cart data has been corrupted. Please try clearing browser cache and refreshing.";
             }
         } catch (ErrorException $e) {
             $response['message'] = $e->getMessage();
@@ -64,7 +62,7 @@ class CartController extends Controller
 
             try {
                 if (isset($data["cart"]) && is_array($data["cart"])) {
-                    $this->cartService->storeUserCart($_SESSION['userID'], $data["cart"]);
+                    $this->cartService->processPaymentOfCart($_SESSION['userID'], $data["cart"]);
 
                     $response['status'] = 1;
                     $response['message'] = 'Payment processed successfully! You can now view the order status on your personal page';

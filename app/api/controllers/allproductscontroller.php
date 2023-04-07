@@ -16,9 +16,4 @@ class AllProductsController
         header('Content-Type: application/json');
         echo json_encode($products);
     }
-
-    public function products()
-    {
-        
-    }
 }

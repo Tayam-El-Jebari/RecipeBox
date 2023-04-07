@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search');
     const categoryFilter = document.querySelectorAll('#category-filter input[type="radio"]');
     const productCards = document.querySelectorAll('.product-card');
@@ -25,4 +24,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     filterProducts();
-});

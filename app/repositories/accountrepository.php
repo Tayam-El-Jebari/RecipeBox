@@ -31,7 +31,8 @@ class AccountRepository extends Repository
             throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
-    function getPasswordByEmail($email){
+    function getPasswordByEmail($email)
+    {
         try {
             $stmt = $this->connection->prepare("SELECT `password` FROM `Users` WHERE email = ?");
             $stmt->execute([$email]);
@@ -47,7 +48,7 @@ class AccountRepository extends Repository
             $stmt = $this->connection->prepare("SELECT id, firstname FROM `Users` WHERE email = ?");
             $stmt->execute([$email]);
             $userData = $stmt->fetch();
-            $user = new Account($userData['id'], $userData['firstname']);            
+            $user = new Account($userData['firstname'], $userData['id']);
             return $user;
         } catch (Exception $e) {
             throw new ErrorException("It seems something went wrong with our database! Please try again later.");
@@ -56,13 +57,42 @@ class AccountRepository extends Repository
     function getUserById($id)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT `id`, `firstname`, `lastname`, `email`, `password`, `postalcode`, `housenumber` FROM `Users` WHERE id = ?");
+            $stmt = $this->connection->prepare("SELECT `id`, `firstname`, `lastname`, `email`, `postalcode`, `housenumber` FROM `Users` WHERE id = ?");
             $stmt->execute([$id]);
             $userData = $stmt->fetch();
-            $user = new Account($userData['id'], $userData['firstname'], $userData['lastname'], $userData['email'], $userData['password'], $userData['postalcode'], $userData['housenumber']);            
+            $user = new Account($userData['firstname'], $userData['id'], $userData['lastname'], $userData['email'], '', $userData['postalcode'], $userData['housenumber']);
             return $user;
         } catch (Exception $e) {
             throw new ErrorException("It seems something went wrong with our database! Please try again later.");
+        }
+    }
+    function getPasswordById($id)
+    {
+        try {
+            $stmt = $this->connection->prepare("SELECT  `password` FROM `Users` WHERE id = ?");
+            $stmt->execute([$id]);
+            $userData = $stmt->fetch();
+            $password = $userData['password'];
+            return $password;
+        } catch (Exception $e) {
+            throw new ErrorException("It seems something went wrong with our database! Please try again later.");
+        }
+    }
+    public function updateUserPersonalInformation(Account $account)
+    {
+        try {
+            $stmt = $this->connection->prepare("UPDATE `Users` SET `firstname` = ?, `lastname` = ?, `email` = ?, `postalcode` = ?, `housenumber` = ? WHERE `id` = ?");
+            $stmt->execute([
+                $account->getFirstname(),
+                $account->getLastname(),
+                $account->getEmail(),
+                $account->getPostalcode(),
+                $account->getHouseNumber(),
+                $account->getUserId()
+            ]);
+            return true;
+        } catch (Exception $e) {
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
 }

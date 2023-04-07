@@ -30,7 +30,12 @@
   object-position: 50% 10%;
   max-height: 40vh;
 }
-
+.products{
+      max-width: 75vw;
+}
+.product-quantity{
+  width:100%
+}
 .products-list-container {
   margin: 0px;
   min-width: 100vw;

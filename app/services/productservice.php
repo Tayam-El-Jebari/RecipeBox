@@ -20,7 +20,7 @@ class ProductService
     }
     public function getOne($id)
     {
-        return $this->repository->getOne($id);
+        return $this->repository->getOneProduct($id);
     }
 
     public function getAllCategories()

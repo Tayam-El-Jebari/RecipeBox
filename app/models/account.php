@@ -11,8 +11,8 @@ class Account
     private string $houseNumber;
 
 
-	public function __construct($userID, $firstname, $lastname = '', $email = '',   $password = '', $postalcode = '', $houseNumber = ''){
-		$this->userId = $userID;
+    public function __construct($firstname, $userID = null, $lastname = '', $email = '', $password = '', $postalcode = '', $houseNumber = ''){
+        $this->userId = $userID;
 		$this->firstname = $firstname;
 		$this->lastname = $lastname;
 		$this->email = $email;

@@ -1,5 +1,5 @@
 <body>
-  <div class="container landing-page-container">
+  <div class="landing-page-container">
     <h1 class="display-4 fw-bolder"><span class="stretch">RECIPE BOX</span></h1>
     <img src="/img/mockup-box.png" alt="banner image"> </img>
     <img src="/img/mockup-box-extra.png" id="extraImg" alt="banner image"> </img>
