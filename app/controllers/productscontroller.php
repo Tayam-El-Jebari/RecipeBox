@@ -12,10 +12,11 @@ class ProductsController extends Controller
     }
     public function index()
     {
-        $id = isset($_GET['id']);
-        if($id)
+
+        $IsIdPresent = isset($_GET['id']);
+        if($IsIdPresent)
         {
-            $this->productDetailPage($id);
+            $this->productDetailPage($_GET['id']);
         }
         else{
             $models = [
