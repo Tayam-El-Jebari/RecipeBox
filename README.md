@@ -1,4 +1,4 @@
-#RecipeBox
+# RecipeBox
 RecipeBox is a web application for ordering meal packages. The application has been developed by Tayam El Jebari(student number: 652543) and includes various functionalities such as user authentication, ordering multiple packages at once, managing personal data, filtering ingredients for allergies, searching for specific recipes, and more.
 
 **URL hosted website:** https://webdevtayamrecipebox.000webhostapp.com/
