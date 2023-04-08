@@ -11,6 +11,7 @@
     padding: 5px;
     overflow: hidden;
     transition: height 0.5s ease-in;
+    align-self: center;
   }
   .button-box{
     width: 220px;

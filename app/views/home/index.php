@@ -1,7 +1,7 @@
 <body>
   <div class="landing-page-container">
     <h1 class="display-4 fw-bolder"><span class="stretch">RECIPE BOX</span></h1>
-    <img src="/img/mockup-box.png" alt="banner image"> </img>
+    <img src="/img/mockup-box.png" id="bannerImg" alt="banner image"> </img>
     <img src="/img/mockup-box-extra.png" id="extraImg" alt="banner image"> </img>
     <p class="attention-text">
       A compact, quick and easy dinner for healthy individuals,
@@ -10,9 +10,9 @@
   </div>
 
 
-  <div class="container">
+  <div class="container" id="food-categories">
     <?php foreach ($foodCategories as $foodCategory) { ?>
-      <div class="card" id="card-banner">
+      <div class="card ml mr" id="card-banner">
         <a href="/products?foodcategory=<?= $foodCategory->getFoodCategoryID() ?>&<?= str_replace(" ", "-", $foodCategory->getFoodCategoryName()) ?>">
         <img id="card-img-banner" src="<?= $foodCategory->getBannerImage() ?>" alt="<?= $foodCategory->getFoodCategoryName() ?> banner image"> </img>
         <div class="card-img-overlay text-white d-flex flex-column justify-content-center">

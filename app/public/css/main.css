@@ -234,4 +234,18 @@ width:100%
       grid-template-columns: 1fr 1fr;
     }
   }
+  @media (max-width: 992px) {
+    .product-grid {
+      grid-template-columns: 1fr 1fr !important;
+  }
+  #card-img-banner {
+    height: 15vh;
+}
+}
+  @media (max-width: 676px) {
+    .product-grid {
+      grid-template-columns: 1fr !important;
+  }
+}
+  
   

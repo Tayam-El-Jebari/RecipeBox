@@ -6,26 +6,29 @@ require_once __DIR__ . '/../models/ingredient.php';
 
 class ProductRepository extends Repository
 {
-
+    private function fetchProducts($limit = null)
+    {
+        $limitQuery = $limit ? "LIMIT {$limit}" : "";
+        $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, fc.foodCategoryID, m.price, m.image, m.name, m.kcal, m.allergens, 
+        GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
+        FROM meals as m
+        INNER JOIN foodCategories as fc
+        ON m.mainIngredientId = fc.foodCategoryID
+        INNER JOIN ingredients 
+        ON m.id = ingredients.meal_id 
+        GROUP BY m.id 
+        ORDER BY m.id DESC {$limitQuery};");
+    
+        $products = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $products[] = $this->createProduct($row);
+        }
+        return $products;
+    }
     function getMostRecentFour()
     {
         try {
-            $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, fc.foodCategoryID, m.price, m.image, m.name, m.kcal, m.allergens,
-            GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
-            FROM meals as m
-            INNER JOIN foodCategories as fc
-			ON m.mainIngredientId = fc.foodCategoryID
-            INNER JOIN ingredients 
-            ON m.id = ingredients.meal_id 
-            GROUP BY m.id 
-            ORDER BY m.id DESC LIMIT 4;");
-
-            $products = array();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-              
-                $products[] = $this->createProduct($row);
-            }
-            return $products;
+            return $this->fetchProducts(4);
         } catch (PDOException $e) {
             echo $e;
         }
@@ -45,20 +48,7 @@ class ProductRepository extends Repository
     function getAll()
     {
         try {
-            $stmt = $this->connection->query("SELECT m.id, fc.foodCategoryName, fc.foodCategoryID, m.price, m.image, m.name, m.kcal, m.allergens, 
-            GROUP_CONCAT(ingredients.ingredient) as ingredients, GROUP_CONCAT(ingredients.ingredientWeight) as ingredientsWeight
-            FROM meals as m
-            INNER JOIN foodCategories as fc
-			ON m.mainIngredientId = fc.foodCategoryID
-            INNER JOIN ingredients 
-            ON m.id = ingredients.meal_id 
-            GROUP BY m.id 
-            ORDER BY m.id;");
-            $products = array();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $products[] = $this->createProduct($row);
-            }
-            return $products;
+            return $this->fetchProducts();
         } catch (PDOException $e) {
             echo $e;
         }
@@ -86,7 +76,7 @@ class ProductRepository extends Repository
 
             return $product;
         } catch (PDOException $e) {
-            echo $e;
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
     function getAllCategories()
@@ -105,7 +95,7 @@ class ProductRepository extends Repository
 
             return $foodCategories;
         } catch (PDOException $e) {
-            echo $e;
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
     private function createIngredientsArray($ingredients, $ingredientsWeight)
@@ -133,7 +123,7 @@ class ProductRepository extends Repository
             $stmt = $this->connection->prepare("INSERT INTO userCarts (userId, mealId, quantity, isPaid, `statusID`) VALUES (?, ?, ?, 0, 1)");
             $stmt->execute([$userId, $item->getProduct()->getProductId(), $item->getQuantity()]);
         } catch (PDOException $e) {
-            throw new ErrorException("Something went wrong with storing cart item: " . $e->getMessage());
+            throw new ErrorException("It seems something went wrong on our side! Please try again later.");
         }
     }
     public function processPaymentCartItem($userId, $item)

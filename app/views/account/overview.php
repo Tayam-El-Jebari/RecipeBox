@@ -12,23 +12,23 @@
         <form id="changeInformation" class="input-group" method="POST">
           <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control vw-20" id="firstName" value="<?= htmlspecialchars($account->getFirstname())?>">
+            <input type="text" class="form-control w-100" id="firstName" value="<?= htmlspecialchars($account->getFirstname())?>">
           </div>
           <div class="mb-3">
             <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control vw-20" id="lastName" value="<?= htmlspecialchars($account->getLastname())?>">
+            <input type="text" class="form-control w-100" id="lastName" value="<?= htmlspecialchars($account->getLastname())?>">
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control vw-20" id="email"value="<?= htmlspecialchars($account->getEmail())?>">
+            <input type="email" class="form-control w-100" id="email"value="<?= htmlspecialchars($account->getEmail())?>">
           </div>
           <div class="mb-3">
             <label for="postalCode" class="form-label">Postal Code</label>
-            <input type="text" class="form-control vw-20" id="postalCode"value="<?= htmlspecialchars($account->getPostalCode())?>">
+            <input type="text" class="form-control w-100" id="postalCode"value="<?= htmlspecialchars($account->getPostalCode())?>">
           </div>
           <div class="mb-3">
             <label for="houseNumber" class="form-label">House Number</label>
-            <input type="text" class="form-control vw-20" id="houseNumber" value="<?= htmlspecialchars($account->getHouseNumber())?>">
+            <input type="text" class="form-control w-100" id="houseNumber" value="<?= htmlspecialchars($account->getHouseNumber())?>">
           </div>
           <button type="submit" class="btn btn-primary text-end">Save Changes</button>
         </form>

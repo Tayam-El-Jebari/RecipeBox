@@ -1,6 +1,6 @@
 <body>
 
-<div class="min-vh-85">
+<div class="min-vh-85 justify-content-center d-flex">
   <div id="form-box">
   <div class="alert alert-danger d-none" id="alert" role="alert">
 </div>

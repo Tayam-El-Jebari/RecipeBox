@@ -1,6 +1,6 @@
 <body>
   <div class="container mh-vh-100 pt-3">
-    <div class="row bg-light-yellow rounded product d-flex align-items-center justify-content-center">
+    <div class="row bg-yellow rounded product d-flex align-items-center justify-content-center shadow rounded">
       <div class="col-sm-6">
         <img class="card-img product-detail-image img-fluid" src=" <?= $product->getImageAddress() ?> " alt="'<?= $product->getProductName() ?> '-image">
       </div>
@@ -54,74 +54,16 @@
   <?php }
     } ?>
 
-  <h2 class="mt-5"> Nutritional facts: </h2>
-  <div class="container">
-    <?php foreach ($product->getIngredients() as $ingredient) { ?>
-      <?php
-      $searchQuery = urlencode($ingredient->getIngredient());
-      //for some reason the api loads 24 products with a page size of 1, and 2 products with a page size of 2, hence, for efficiency; page_size=2
-      $apiUrl = "https://world.openfoodfacts.org/cgi/search.pl?search_terms={$searchQuery}&page-count=1&search_simple=1&json=true&page_size=2";
-
-      $response = file_get_contents($apiUrl);
-      $data = json_decode($response, true);
-      $product = $data['products'][0];
-      ?>
-      <div class="table-responsive mt-5">
-        <h3><?= htmlspecialchars($ingredient->getIngredient()); ?></h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Nutrient</th>
-              <th scope="col">Amount per 100g</th>
-              <th scope="col">Amount for <?= $ingredient->getIngredientWeight() ?>g</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Energy</td>
-              <td><?= htmlspecialchars($product['nutriments']['energy-kcal_100g'] ?? 0) //default value assigned here in order to prevent errors
-                  ?> kcal</td>
-              <td><?= htmlspecialchars(($product['nutriments']['energy-kcal_100g'] ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> kcal</td>
-            </tr>
-            <tr>
-              <td>Fat</td>
-              <td><?= htmlspecialchars($product['nutriments']['fat_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['fat_100g'] ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-            <tr>
-              <td>Saturated Fat</td>
-              <td><?= htmlspecialchars($product['nutriments']['saturated-fat_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['saturated-fat_100g'] ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-            <tr>
-              <td>Carbohydrates</td>
-              <td><?= htmlspecialchars($product['nutriments']['carbohydrates_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['carbohydrates_100g'] ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-            <tr>
-              <td>Sugars</td>
-              <td><?= htmlspecialchars($product['nutriments']['sugars_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['sugars_100g']  ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-            <tr>
-              <td>Fiber</td>
-              <td><?= htmlspecialchars($product['nutriments']['fiber_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['fiber_100g'] ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-            <tr>
-              <td>Proteins</td>
-              <td><?= htmlspecialchars($product['nutriments']['proteins_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['proteins_100g']  ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-            <tr>
-              <td>Salt</td>
-              <td><?= htmlspecialchars($product['nutriments']['salt_100g'] ?? 0) ?> g</td>
-              <td><?= htmlspecialchars(($product['nutriments']['salt_100g'] ?? 0) / 100 * $ingredient->getIngredientWeight()) ?> g</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    <?php }; ?>
+<h2 class="mt-5">Nutritional facts:</h2>
+<div class="spinner-border" id="loading" role="status">
+  <span class="sr-only"></span>
+</div>
+<div class="container">
+  <?php foreach ($product->getIngredients() as $ingredient) { ?>
+    <div class="nutritional-data" data-ingredient="<?= urlencode($ingredient->getIngredient()) ?>" data-ingredient-weight="<?= $ingredient->getIngredientWeight() //data will be loaded with ?>">
+    </div>
+  <?php } ?>
+</div>
     <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

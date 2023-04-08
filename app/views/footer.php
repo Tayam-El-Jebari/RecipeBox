@@ -8,7 +8,7 @@
         <ul class="list-inline">
           <li class="list-inline-item"><a href="/">Home</a></li>
           <li class="list-inline-item"><a href="/products">Products</a></li>
-          <li class="list-inline-item"><a href="/login">Sign up/ Sign In</a></li>
+          <li class="list-inline-item"><a href="/account">Sign up/ Sign In</a></li>
           <li class="list-inline-item"><a href="https://github.com/Tayam0nline"class="bubble fa-brands fa-github"></i></a></li>
         </ul>
       </div>

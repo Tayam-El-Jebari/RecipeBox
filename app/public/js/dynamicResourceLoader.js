@@ -10,11 +10,26 @@ function setScript(foldername, scriptname) {
     document.body.appendChild(script);
   });}
 
-  //added await so scripts that require other scripts load in the correct order 
-  await setScript(params[1], params[1]);
-  if (params[2] != null) {
-    setStyle(params[1], "detailPage");
-    setStyle(params[1], params[2]);
+  function shouldLoadNutritionalLoader() {
+    const url = window.location.href;
+    return url.match(/^(http:\/\/|https:\/\/)[\w-]+(\.[\w-]+)*\/products\?id=\d+$/);
+  }
+
+  //done only because the product detail page doesn't need the products.js to function
+  if (shouldLoadNutritionalLoader()) {
+    setScript("products", "productsNutritionalLoader");
+  }else {
+      //added await so scripts that require other scripts load in the correct order 
+    await setScript(params[1], params[1]);
+
+  }
+
+ //added for if you want a second js on a detail page for example
+if (params[2] != null) {
     await setScript(params[1], params[2]);
   }
+
+  
+
+
 });
