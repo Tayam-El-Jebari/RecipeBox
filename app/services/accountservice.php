@@ -9,25 +9,35 @@ class AccountService
     {
         $this->repository = new AccountRepository();
     }
+    private function validateUserInputs($inputStrings, $email, $postalcode, $housenumber, $password = null, $fullname = null)
+    {
+        if (!$this->validateStringLength($inputStrings)) {
+            throw new ErrorException("One or more inputs have more than 100 characters. Please provide shorter input values.");
+        }
+        if (!$this->verifyEmail($email)) {
+            throw new ErrorException("The email is in an incorrect format!");
+        }
+        if ($password !== null && $fullname !== null && !$this->isPasswordDistinct($password, $fullname, $email)) {
+            throw new ErrorException("Password is too similar to email or fullname! Please choose a more secure password.");
+        }
+        if (!$this->verifyPostalCode($postalcode)) {
+            throw new ErrorException("The format of the postal code is not correct <br>make sure the format follows: 1000XX or 1000 XX");
+        }
+        if (!$this->verifyHouseNumber($housenumber)) {
+            throw new ErrorException("The housenumber is not correct <br>make sure the format follows: 823F or 823");
+        }
+    }
     public function register($firstname, $lastname, $email, $password, $postalcode, $housenumber)
     {
         try {
             $inputStrings = [$firstname, $lastname, $email, $password, $postalcode, $housenumber];
-            if (!$this->validateStringLength($inputStrings)) {
-                throw new ErrorException("One or more inputs have more than 100 characters. Please provide shorter input values.");
-            }else if ($this->repository->checkEmailExists($email)) {
+            $this->validateUserInputs($inputStrings, $email, $postalcode, $housenumber, $password, $firstname . ' ' . $lastname);
+
+            if ($this->repository->checkEmailExists($email)) {
                 throw new ErrorException("This email is already linked to an account! Please try to log in.");
-            } else if (!$this->verifyEmail($email)) {
-                throw new ErrorException("The email is in an incorrect format!");
-            } else if (!$this->isPasswordDistinct($password, $firstname . ' ' . $lastname, $email)) {
-                throw new ErrorException("Password is too similar to email or fullname! Please choose a more secure password.");
-            } else if (!$this->verifyPostalCode($postalcode)) {
-                throw new ErrorException("The format of the postal code is not correct <br>make sure the format follows: 1000XX or 1000 XX");
-            } else if (!$this->verifyHouseNumber($housenumber)) {
-                throw new ErrorException("The housenumber is not correct <br>make sure the format follows: 823F or 823");
-            } else {
-                $this->repository->register($firstname, $lastname, $email, password_hash($password, PASSWORD_DEFAULT), $postalcode, $housenumber);
             }
+
+            $this->repository->register($firstname, $lastname, $email, password_hash($password, PASSWORD_DEFAULT), $postalcode, $housenumber);
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
         }
@@ -45,18 +55,10 @@ class AccountService
     {
         try {
             $inputStrings = [$firstname, $lastname, $email, $postalcode, $housenumber];
-            if (!$this->validateStringLength($inputStrings)) {
-                throw new ErrorException("One or more inputs have more than 100 characters. Please provide shorter input values.");
-            }else if (!$this->verifyEmail($email)) {
-                throw new ErrorException("The email is in an incorrect format!");
-            } else if (!$this->verifyPostalCode($postalcode)) {
-                throw new ErrorException("The format of the postal code is not correct <br>make sure the format follows: 1000XX or 1000 XX");
-            } else if (!$this->verifyHouseNumber($housenumber)) {
-                throw new ErrorException("The housenumber is not correct <br>make sure the format follows: 823F or 823");
-            } else {
-                $account = new Account($firstname, $id, $lastname, $email, '', $postalcode, $housenumber);
-                $this->repository->updateUserPersonalInformation($account);
-            }
+            $this->validateUserInputs($inputStrings, $email, $postalcode, $housenumber);
+
+            $account = new Account($firstname, $id, $lastname, $email, '', $postalcode, $housenumber);
+            $this->repository->updateUserPersonalInformation($account);
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
         }
@@ -89,6 +91,7 @@ class AccountService
     }
     public function logout()
     {
+        
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -99,7 +102,8 @@ class AccountService
         header('Location: /');
         exit();
     }
-    public function verifyEmail($email) {
+    public function verifyEmail($email)
+    {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
         } else {
@@ -142,16 +146,16 @@ class AccountService
             return false;
         }
     }
+    //method made for password reset/ change password. Should have or could have but not Must have, isn't implemented but here for quick implementation
     public function verifyNotSamePassword($id, $password)
     {
         try {
             $current_time = date("H:i:s");
             $encryptedPassword = $this->repository->getPasswordById($id);
 
-            //checks if repository fetched something or checks if the password can be verified
             if ($encryptedPassword == false || password_verify($password, $encryptedPassword["password"])) {
                 return false;
-            } 
+            }
             return true;
         } catch (Exception $e) {
             throw $e;
