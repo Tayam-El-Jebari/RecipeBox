@@ -7,10 +7,10 @@ RecipeBox is a web application for ordering meal packages. The application has b
 - **E-mail:** maude.bat0@hotmail.com
 - **Password:** Wachtwoord123
 ## Functions
-- **Login and registration system: Users can create an account and log in to access personalized features.
-- **Bulk package ordering: Users can order multiple meal packages at once.
-- **Personal data management: Users can update their personal information.
-- **Ingredient filter: Users can filter recipes based on specific ingredients to avoid allergens.
-- **Recipe search: Users can search for specific recipes using the search function.
-- **Order status page: Users can view the status of their orders.
-- **CRUD functionalities: Users can create, read, update, and delete recipes.
+- Login and registration system: Users can create an account and log in to access personalized features.
+- Bulk package ordering: Users can order multiple meal packages at once.
+- Personal data management: Users can update their personal information.
+- Ingredient filter: Users can filter recipes based on specific ingredients to avoid allergens.
+- Recipe search: Users can search for specific recipes using the search function.
+- Order status page: Users can view the status of their orders.
+- CRUD functionalities: Users can create, read, update, and delete recipes.
