@@ -16,7 +16,7 @@
                 <input class="form-check-input" type="radio" name="category" id="<?= $categorie->getFoodCategoryName() ?>" value="<?= $categorie->getFoodCategoryID() ?>" <?php //checks if the URL contains a food category so it already selects the correct one 
                                                                                                                                                                           if (isset($_GET['foodcategory'])) {
                                                                                                                                                                             if ($_GET['foodcategory'] == $categorie->getFoodCategoryID()) { ?>checked<?php }
-                                                                                                                                                                          } ?>>
+                                                                                                                                                                                                                                                  } ?>>
                 <label class="form-check-label" for="<?= $categorie->getFoodCategoryName() ?>"><?= $categorie->getFoodCategoryName() ?></label>
               </div>
             <?php } ?>
