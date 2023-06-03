@@ -1,4 +1,4 @@
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
   let navigation = document.getElementById('navigation');
 
   if (window.scrollY > navigation.offsetHeight) {
@@ -10,8 +10,8 @@ window.addEventListener('scroll', function() {
 function logout() {
   fetch('account/logout', {
     method: 'POST',
-}).then(() => {
-  sessionStorage.removeItem('cart');
-  location.reload();
-});
+  }).then(() => {
+    sessionStorage.removeItem('cart');
+    location.reload();
+  });
 }
